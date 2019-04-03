@@ -1,3 +1,3 @@
-import Admin from './Admin'
+import GoAdmin from './Admin'
 
-export default Admin
+export default GoAdmin

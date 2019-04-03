@@ -3,6 +3,12 @@ import {Button} from 'antd'
 import './App.css';
 
 class GoAdmin extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
   render() {
     return (
       <div className="App">
