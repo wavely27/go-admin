@@ -19,9 +19,15 @@ module.exports = {
     'react/react-in-jsx-scope': 0,
     'jsx-a11y/anchor-is-valid': 0,
     'react/jsx-wrap-multilines': 0,
+    // alias
     'import/no-unresolved': 0,
-    'react/destructuring-assignment': 0,
-    'react/prop-types': 0,
+    // 结构
+    'react/destructuring-assignment': 1,
+    // prop-types
+    'react/forbid-prop-types': 0,
+    'react/no-unused-prop-types': 0,
+    'react/prop-types': 2,
+    // clg
     'no-console': 0,
     // 'no-eval': 0,
     // 'no-unused-expressions': 0,
