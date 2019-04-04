@@ -1,14 +1,65 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import Admin from './Admin';
-import * as serviceWorker from './serviceWorker';
+import React, {Component} from 'react'
+import {Button} from 'antd'
+import ReactDom from 'react-dom'
+import PropTypes from 'prop-types';
+import './style.css'
 
-ReactDOM.render(
-  <Admin config={{a: 1}} />
-  , document.getElementById('root'));
+class GoAdmin extends Component {
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+  static defaultProps = {
+  config: {}
+
+}
+
+  static propTypes = {
+    config: PropTypes.object,
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      config: props.config
+    }
+  }
+
+
+
+  render() {
+    const {config} = this.state
+    console.log('config', config)
+    return (
+      <div>
+        <Button type='primary'>primary</Button>
+      </div>
+    )
+  }
+}
+
+// Com.defaultProps = {
+//   config: {}
+// }
+//
+// Com.propTypes = {
+//   config: PropTypes.object,
+// }
+
+// test list
+// GoAdmin
+//
+//
+//
+//
+
+ReactDom.render(
+  <div className='content'>
+    <GoAdmin />
+  </div>
+  ,
+  document.getElementById('root')
+)
+
+const Com = {
+  GoAdmin
+}
+
+export default Com
