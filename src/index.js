@@ -43,13 +43,6 @@ class GoAdmin extends Component {
 //   config: PropTypes.object,
 // }
 
-// test list
-// GoAdmin
-//
-//
-//
-//
-
 ReactDom.render(
   <div className='content'>
     <GoAdmin />
@@ -58,8 +51,4 @@ ReactDom.render(
   document.getElementById('root')
 )
 
-const Com = {
-  GoAdmin
-}
-
-export default Com
+export default GoAdmin
