@@ -1,13 +1,19 @@
 import React, {Component} from 'react'
-import {Button} from 'antd'
+// import {Button} from 'antd'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types';
 import './style.css'
+import Admin from "./Admin";
+import config from './config'
 
 class GoAdmin extends Component {
 
   static defaultProps = {
-  config: {}
+  config: {
+    filterConfig: {},
+    operationConfig: {},
+    listConfig: {},
+  }
 
 }
 
@@ -17,19 +23,13 @@ class GoAdmin extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      config: props.config
-    }
+    this.state = {}
   }
 
-
-
   render() {
-    const {config} = this.state
-    console.log('config', config)
     return (
       <div>
-        <Button type='primary'>primary</Button>
+        <Admin config={config} />
       </div>
     )
   }
@@ -50,5 +50,11 @@ ReactDom.render(
   ,
   document.getElementById('root')
 )
+
+/*
+const GoAdmin = {
+  a: 2
+}
+*/
 
 export default GoAdmin

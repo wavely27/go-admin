@@ -1,12 +1,12 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: './src/index.js',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'commonjs2'
+    // libraryTarget: 'commonjs2'
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -50,5 +50,8 @@ module.exports = {
         ] // options 在 .babelrc 定义
       }
     ]
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   }
 };

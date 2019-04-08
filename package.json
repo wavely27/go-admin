@@ -1,9 +1,12 @@
 {
   "name": "go-admin",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.2",
+  "private": false,
   "description": "Admin component",
-  "main": "src/entry.js",
+  "main": "dist/main.js",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/wavely27/go-admin.git"
@@ -18,9 +21,9 @@
   },
   "homepage": "https://github.com/wavely27/go-admin#readme",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --config ./config/webpack.prod.config.js",
     "watch": "webpack --watch",
-    "start": "webpack-dev-server --port 5800 --colors --hot --open",
+    "start": "webpack-dev-server --config ./config/webpack.dev.config.js --port 5810 --colors --hot --open",
     "prepublish": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

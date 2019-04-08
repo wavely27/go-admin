@@ -47,5 +47,5 @@ lodash
 # go-admin
 
 ## build
-/dist/index.js
+/dist/main.js
 
