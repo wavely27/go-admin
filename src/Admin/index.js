@@ -6,7 +6,6 @@ import List from './List'
 // import config from "../listConfig";
 // import config from "../formConfig";
 
-
 class Admin extends Component {
 
   static defaultProps = {
@@ -29,12 +28,12 @@ class Admin extends Component {
     let children = <div>Missing configuration</div>
     if (formConfig) {
       children =
-        <div>
+        <div style={{minWidth: 960}}>
           <FormView formConfig={formConfig} />
         </div>
     } else if (filterConfig && operationConfig && listConfig) {
       children =
-        <div>
+        <div style={{minWidth: 960}}>
           <FormView filterConfig={filterConfig} />
           <Operation config={operationConfig} />
           <List config={listConfig} />

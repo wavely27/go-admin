@@ -36,8 +36,12 @@ const filterConfig = {
       component: "Cascader",
       itemKey: "position",
       label: "定位",
-      fieldProps: {},
+      holder: 2,
       itemProps: {
+        wrapperCol:{span: 16}
+      },
+      fieldProps: {},
+      innerProps: {
         placeholder: "请选择投放定位",
         options: positionOptions,
       }
@@ -46,7 +50,7 @@ const filterConfig = {
       component: "Input",
       itemKey: "name",
       label: "招商名称",
-      itemProps: {
+      innerProps: {
         placeholder: "请输入招商名称",
       }
     },
@@ -54,7 +58,7 @@ const filterConfig = {
       component: "Input",
       itemKey: "id",
       label: "活动ID",
-      itemProps: {
+      innerProps: {
         placeholder: "请输入活动ID",
       }
     },
@@ -62,7 +66,7 @@ const filterConfig = {
       component: "DatePicker",
       itemKey: "startTime",
       label: "投放开始",
-      itemProps: {
+      innerProps: {
         placeholder: "请输入投放开始时间",
       }
     },

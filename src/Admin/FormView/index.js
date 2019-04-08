@@ -34,7 +34,11 @@ class FormContent extends Component {
     const config = formConfig || filterConfig
     console.log('config', config)
     const {colCount=3, layout} = config.options
-
+    let formFlag = false
+    if (formConfig) {
+      formFlag = true
+    }
+    console.log('formFlag', formFlag)
     const colNumber =
       layout === 'horizontal'
         ? Math.ceil(24 / colCount)
@@ -43,23 +47,44 @@ class FormContent extends Component {
     const {getFieldDecorator} = props.form;
 
     const children = config.form.map((item, i) => {
-      const {label, itemKey, fieldProps={}} = item
+      const {label, itemKey, prefix, colSpan, itemProps={}, fieldProps={}, holder=1} = item
 
+      const prefixWrap = prefix && <span style={{paddingRight: 20}}>{prefix}</span>
       const fixLabel = typeof label === 'string'
-        ? <span style={{width: 60}}>{label}</span>
+        ? <span style={{width: 64}}>{label}</span>
         : label
-      const labelEle = <div style={{display: 'inline-flex',}}>{fixLabel}</div>
-      const child = (
-        <Col span={colNumber} key={i} style={{display:layout !== 'horizontal' || i < count ? 'block' : 'none'}}>
-          <Item label={labelEle} style={{display: 'flex'}}>
-            {getFieldDecorator(itemKey, {
-              ...fieldProps
-            })(
-              getItem(item)
-            )}
-          </Item>
-        </Col>
+      let labelEle = <div style={{display: 'inline-flex',}}>{fixLabel}</div>
+      let child = (
+        <div>1</div>
       )
+      if (label === undefined) {
+        labelEle = undefined
+        child = (
+          <Col span={colSpan || 8 * holder} key={i} style={{display:layout !== 'horizontal' || i < count ? 'block' : 'none'}}>
+            <Item label={labelEle} {...itemProps} style={{display: 'flex', ...itemProps.style}}>
+              {prefixWrap}
+              {getFieldDecorator(itemKey, {
+                ...fieldProps
+              })(
+                getItem(item, formFlag)
+              )}
+            </Item>
+          </Col>
+        )
+      } else {
+        child = (
+          <Col span={colSpan || colNumber * holder} key={i} style={{display:layout !== 'horizontal' || i < count ? 'block' : 'none'}}>
+            <Item label={labelEle} {...itemProps} style={{display: 'flex', ...itemProps.style}}>
+              {prefixWrap}
+              {getFieldDecorator(itemKey, {
+                ...fieldProps
+              })(
+                getItem(item, formFlag)
+              )}
+            </Item>
+          </Col>
+        )
+      }
       return child
     })
     return children;
@@ -92,13 +117,13 @@ class FormContent extends Component {
       </a>
     )
 
-
     if (filterConfig) {
       const {colCount} = filterConfig.options
       const {length} = filterConfig.form
       more = colCount >= length && null
     }
 
+    // btn
     let btn = (
       <Row>
         <Col span={24} style={{textAlign: 'right'}}>
@@ -110,13 +135,13 @@ class FormContent extends Component {
         </Col>
       </Row>
     )
-
     if (formConfig) {
+      const {onOk} = formConfig
       more = null
       btn = (
         <Row>
           <Col span={24} style={{textAlign: 'right'}}>
-            <Button type="primary" htmlType="submit">保存</Button>
+            <Button type="primary" onClick={onOk}>保存</Button>
             <Button style={{marginLeft: 8}} onClick={this.handleReset}>
               返回
             </Button>
@@ -129,7 +154,7 @@ class FormContent extends Component {
     return (
       <Form
         style={{
-          padding: '24px',
+          padding: '34px',
           background: '#fbfbfb',
           border: '1px solid #d9d9d9',
           borderRadius: '6px',
