@@ -30,10 +30,10 @@ class List extends Component {
   render() {
     const {props} = this
     const {config} = props
-    const {columns, data} = config
+    const {data} = config
     console.log('config', config)
     return (
-      <Table columns={columns} dataSource={data} />
+      <Table {...config} dataSource={data} />
     )
   }
 }

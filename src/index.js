@@ -1,21 +1,16 @@
 import React, {Component} from 'react'
-// import {Button} from 'antd'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types';
 import './style.css'
 import Admin from "./Admin";
-import config from './config'
+import config from './listConfig'
+// import config from './formConfig'
 
 class GoAdmin extends Component {
 
   static defaultProps = {
-  config: {
-    filterConfig: {},
-    operationConfig: {},
-    listConfig: {},
+    config: {}
   }
-
-}
 
   static propTypes = {
     config: PropTypes.object,
@@ -27,6 +22,7 @@ class GoAdmin extends Component {
   }
 
   render() {
+    // const {config} = this.props
     return (
       <div>
         <Admin config={config} />
@@ -35,14 +31,6 @@ class GoAdmin extends Component {
   }
 }
 
-// Com.defaultProps = {
-//   config: {}
-// }
-//
-// Com.propTypes = {
-//   config: PropTypes.object,
-// }
-
 ReactDom.render(
   <div className='content'>
     <GoAdmin />
@@ -50,11 +38,5 @@ ReactDom.render(
   ,
   document.getElementById('root')
 )
-
-/*
-const GoAdmin = {
-  a: 2
-}
-*/
 
 export default GoAdmin

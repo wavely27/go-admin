@@ -7,7 +7,7 @@ import getItem from './getItem'
 
 const {Item} = Form
 
-class FilterForm extends Component {
+class FormContent extends Component {
 
   static defaultProps = {
     form: {},
@@ -30,9 +30,15 @@ class FilterForm extends Component {
 
   getFields = () => {
     const {props, state} = this
-    const {config} = props
-    const {colCount} = config
-    const colNumber = Math.ceil(24 / colCount)
+    const {formConfig, filterConfig} = props
+    const config = formConfig || filterConfig
+    console.log('config', config)
+    const {colCount=3, layout} = config.options
+
+    const colNumber =
+      layout === 'horizontal'
+        ? Math.ceil(24 / colCount)
+        : 24
     const count = state.expand ? 10 : colCount * 2;
     const {getFieldDecorator} = props.form;
 
@@ -44,7 +50,7 @@ class FilterForm extends Component {
         : label
       const labelEle = <div style={{display: 'inline-flex',}}>{fixLabel}</div>
       const child = (
-        <Col span={colNumber} key={i} style={{display: i < count ? 'block' : 'none'}}>
+        <Col span={colNumber} key={i} style={{display:layout !== 'horizontal' || i < count ? 'block' : 'none'}}>
           <Item label={labelEle} style={{display: 'flex'}}>
             {getFieldDecorator(itemKey, {
               ...fieldProps
@@ -54,10 +60,8 @@ class FilterForm extends Component {
           </Item>
         </Col>
       )
-
       return child
     })
-
     return children;
   }
 
@@ -79,10 +83,49 @@ class FilterForm extends Component {
 
   render() {
     const {props} = this
-    const {config} = props
-    const {colCount} = config
-    const {length} = config.form
-    console.log('this, config', this, config)
+    const {formConfig, filterConfig} = props
+
+    let more = (
+      <a style={{marginLeft: 8, fontSize: 12}} onClick={this.toggle}>
+        更多
+        <Icon type={this.state.expand ? 'up' : 'down'} />
+      </a>
+    )
+
+
+    if (filterConfig) {
+      const {colCount} = filterConfig.options
+      const {length} = filterConfig.form
+      more = colCount >= length && null
+    }
+
+    let btn = (
+      <Row>
+        <Col span={24} style={{textAlign: 'right'}}>
+          <Button type="primary" htmlType="submit">查询</Button>
+          <Button style={{marginLeft: 8}} onClick={this.handleReset}>
+            重置
+          </Button>
+          {more}
+        </Col>
+      </Row>
+    )
+
+    if (formConfig) {
+      more = null
+      btn = (
+        <Row>
+          <Col span={24} style={{textAlign: 'right'}}>
+            <Button type="primary" htmlType="submit">保存</Button>
+            <Button style={{marginLeft: 8}} onClick={this.handleReset}>
+              返回
+            </Button>
+          </Col>
+        </Row>
+      )
+    }
+
+    console.log('this.props', this.props)
     return (
       <Form
         style={{
@@ -94,30 +137,12 @@ class FilterForm extends Component {
         onSubmit={this.handleSearch}
       >
         <Row gutter={24}>{this.getFields()}</Row>
-        <Row>
-          <Col span={24} style={{textAlign: 'right'}}>
-            <Button type="primary" htmlType="submit">查询</Button>
-            <Button style={{marginLeft: 8}} onClick={this.handleReset}>
-              重置
-            </Button>
-            {
-              colCount < length
-                ? (
-                  <a style={{marginLeft: 8, fontSize: 12}} onClick={this.toggle}>
-                    更多
-                    <Icon type={this.state.expand ? 'up' : 'down'} />
-                  </a>
-                )
-                : null
-            }
-
-          </Col>
-        </Row>
+        {btn}
       </Form>
     )
   }
 }
 
-const Filter = Form.create()(FilterForm)
+const FormView = Form.create()(FormContent)
 
-export default Filter
+export default FormView

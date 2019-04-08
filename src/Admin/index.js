@@ -1,8 +1,11 @@
 import React, {Component} from 'react'
 import PropTypes from "prop-types";
-import Filter from './Filter'
+import FormView from './FormView'
 import Operation from './Operation'
 import List from './List'
+// import config from "../listConfig";
+// import config from "../formConfig";
+
 
 class Admin extends Component {
 
@@ -19,17 +22,26 @@ class Admin extends Component {
     this.state = {}
   }
 
-  render () {
+  render() {
     const {props} = this
-    const {filterConfig, operationConfig, listConfig} = props.config
+    const {formConfig, filterConfig, operationConfig, listConfig} = props.config
 
-    return (
-      <div>
-        <Filter config={filterConfig} />
-        <Operation config={operationConfig} />
-        <List config={listConfig} />
-      </div>
-    )
+    let children = <div>Missing configuration</div>
+    if (formConfig) {
+      children =
+        <div>
+          <FormView formConfig={formConfig} />
+        </div>
+    } else if (filterConfig && operationConfig && listConfig) {
+      children =
+        <div>
+          <FormView filterConfig={filterConfig} />
+          <Operation config={operationConfig} />
+          <List config={listConfig} />
+        </div>
+    }
+
+    return children
   }
 }
 
