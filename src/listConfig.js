@@ -132,7 +132,7 @@ elementList.forEach((obj, i) => {
     dataIndex: obj.fieldId,
     key: obj.fieldId,
     render: (text, record) => {
-      console.log('text, record', text, record)
+      // console.log('text, record', text, record)
       return (
         <div>
           {record.elementList[i].fieldValue}

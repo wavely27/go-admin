@@ -10,11 +10,13 @@ class List extends Component {
     config: {
       columns: [],
       data: [],
-    }
+    },
+    dataSource: []
   }
 
   static propTypes = {
     config: PropTypes.object,
+    dataSource: PropTypes.array,
   }
 
   constructor(props) {
@@ -29,11 +31,11 @@ class List extends Component {
 
   render() {
     const {props} = this
-    const {config} = props
-    const {data} = config
-    console.log('config', config)
+    const {config, dataSource} = props
+    const {options, columns} = config
+    console.log('1111--options, dataSource', options, dataSource)
     return (
-      <Table {...config} dataSource={data} />
+      <Table {...options} columns={columns} dataSource={dataSource} />
     )
   }
 }

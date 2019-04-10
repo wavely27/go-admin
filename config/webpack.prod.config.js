@@ -1,4 +1,6 @@
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); /* eslint-disable-line */
+
 
 module.exports = {
   mode: 'development',
@@ -50,5 +52,18 @@ module.exports = {
         ] // options 在 .babelrc 定义
       }
     ]
-  }
+  },
+  optimization: {
+    minimizer: [new UglifyJsPlugin({
+      uglifyOptions: {
+        compress: {
+          warnings: false,
+          drop_console: true,
+          pure_funcs: ['console.log']
+        }
+      },
+      // sourceMap: config.build.productionSourceMap,
+      parallel: true
+    })],
+  },
 };

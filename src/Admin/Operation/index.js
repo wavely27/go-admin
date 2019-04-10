@@ -45,10 +45,12 @@ class Operation extends Component {
         <Row>
           <Col span={24} style={{textAlign: 'left'}}>
             <Button type="primary">添加</Button>
+            {/*
             <Button style={{marginLeft: 8}} type="primary" htmlType="submit">跳转</Button>
             <Button style={{marginLeft: 8}} onClick={this.handleReset}>
               批量删除
             </Button>
+            */}
           </Col>
         </Row>
       </div>

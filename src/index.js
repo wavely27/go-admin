@@ -5,8 +5,8 @@ import './style.css'
 import {LocaleProvider} from 'antd'
 import zhCN from 'antd/lib/locale-provider/zh_CN'
 import Admin from "./Admin";
-// import config from './listConfig'
-import config from './formConfig'
+// import globalConfig from './listConfig'
+import globalConfig from './formConfig'
 
 
 class GoAdmin extends Component {
@@ -25,10 +25,10 @@ class GoAdmin extends Component {
   }
 
   render() {
-    // const {config} = this.props
+    const {config} = this.props
     return (
       <LocaleProvider locale={zhCN}>
-        <Admin config={config} />
+        <Admin config={config} ref={core => this.core = core} />
       </LocaleProvider>
     )
   }
@@ -36,7 +36,7 @@ class GoAdmin extends Component {
 
 ReactDom.render(
   <div className='content'>
-    <GoAdmin />
+    <GoAdmin config={globalConfig} />
   </div>
   ,
   document.getElementById('root')

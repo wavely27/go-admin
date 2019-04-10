@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 
 
 const getItem = ({component, innerProps}, formFlag) => {
-  console.log('formFlag', formFlag)
   const options = {
     style: {
       flex: 1,
@@ -13,7 +12,6 @@ const getItem = ({component, innerProps}, formFlag) => {
     placeholder: "请输入内容",
     ...innerProps,
   }
-  console.log('options', options)
   switch (component) {
     case 'Cascader':
       return <Cascader {...options} />

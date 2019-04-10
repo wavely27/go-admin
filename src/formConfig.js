@@ -29,7 +29,7 @@ const formConfig = {
     // layout: 'vertical',
   },
   onOk: () => {
-    console.log('ok')
+    // console.log('ok')
   },
   form: [
     {

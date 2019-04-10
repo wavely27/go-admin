@@ -18,14 +18,50 @@ class Admin extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      dataSource: []
+    }
+  }
+
+  componentDidMount() {
+    const {props, state} = this
+    const {params} = state
+    const {config} = props
+    const {request} = config
+    if (0) {
+      request && request(params)
+        .then(res => {
+          console.log('res', res)
+        })
+    }
+  }
+
+  afterSuccess = (res) => {
+    console.log('dataSource', res,)
+    this.setState({
+      dataSource: res.data.list
+    })
+  }
+
+  qeuryList = (params) => {
+    const {props} = this
+    const {config} = props
+    const {request, afterSuccess=this.afterSuccess} = config
+
+    request && request(params)
+      .then(res => {
+        console.log('res', res)
+        afterSuccess(res)
+      })
   }
 
   render() {
-    const {props} = this
+
+    this.core = this
+    const {props ,state} = this
     const {formConfig, filterConfig, operationConfig, listConfig} = props.config
 
-    let children = <div>Missing configuration</div>
+    let children = <div>Admin Missing configuration</div>
     if (formConfig) {
       children =
         <div style={{minWidth: 960}}>
@@ -36,7 +72,7 @@ class Admin extends Component {
         <div style={{minWidth: 960}}>
           <FormView filterConfig={filterConfig} />
           <Operation config={operationConfig} />
-          <List config={listConfig} />
+          <List config={listConfig} dataSource={state.dataSource} />
         </div>
     }
 

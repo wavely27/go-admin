@@ -11,14 +11,14 @@ class FormContent extends Component {
 
   static defaultProps = {
     form: {},
-    config: {
-      form: []
-    }
+    formConfig: null,
+    filterConfig: null,
   }
 
   static propTypes = {
     form: PropTypes.object,
-    config: PropTypes.object,
+    formConfig: PropTypes.object,
+    filterConfig: PropTypes.object,
   }
 
   constructor(props) {
@@ -32,13 +32,11 @@ class FormContent extends Component {
     const {props, state} = this
     const {formConfig, filterConfig} = props
     const config = formConfig || filterConfig
-    console.log('config', config)
     const {colCount=3, layout} = config.options
     let formFlag = false
     if (formConfig) {
       formFlag = true
     }
-    console.log('formFlag', formFlag)
     const colNumber =
       layout === 'horizontal'
         ? Math.ceil(24 / colCount)
@@ -55,7 +53,7 @@ class FormContent extends Component {
         : label
       let labelEle = <div style={{display: 'inline-flex',}}>{fixLabel}</div>
       let child = (
-        <div>1</div>
+        <div>{}</div>
       )
       if (label === undefined) {
         labelEle = undefined
@@ -136,12 +134,13 @@ class FormContent extends Component {
       </Row>
     )
     if (formConfig) {
+      console.log('formConfig123', formConfig)
       const {onOk} = formConfig
       more = null
       btn = (
         <Row>
           <Col span={24} style={{textAlign: 'right'}}>
-            <Button type="primary" onClick={onOk}>保存</Button>
+            <Button type="primary" onClick={()=>onOk(props.form, formConfig.params)}>保存</Button>
             <Button style={{marginLeft: 8}} onClick={this.handleReset}>
               返回
             </Button>
@@ -150,7 +149,7 @@ class FormContent extends Component {
       )
     }
 
-    console.log('this.props', this.props)
+    // console.log('this.props', this.props)
     return (
       <Form
         style={{
