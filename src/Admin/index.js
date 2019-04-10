@@ -51,7 +51,7 @@ class Admin extends Component {
     request && request(params)
       .then(res => {
         console.log('res', res)
-        afterSuccess(res)
+        res && afterSuccess(res)
       })
   }
 

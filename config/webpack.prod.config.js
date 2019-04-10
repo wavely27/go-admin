@@ -1,5 +1,5 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); /* eslint-disable-line */
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); /* eslint-disable-line */
 
 
 module.exports = {
@@ -53,17 +53,17 @@ module.exports = {
       }
     ]
   },
-  optimization: {
-    minimizer: [new UglifyJsPlugin({
-      uglifyOptions: {
-        compress: {
-          warnings: false,
-          drop_console: true,
-          pure_funcs: ['console.log']
-        }
-      },
-      // sourceMap: config.build.productionSourceMap,
-      parallel: true
-    })],
-  },
+  // optimization: {
+  //   minimizer: [new UglifyJsPlugin({
+  //     uglifyOptions: {
+  //       compress: {
+  //         warnings: false,
+  //         drop_console: true,
+  //         pure_funcs: ['console.log']
+  //       }
+  //     },
+  //     // sourceMap: config.build.productionSourceMap,
+  //     parallel: true
+  //   })],
+  // },
 };
