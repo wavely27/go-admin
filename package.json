@@ -55,6 +55,7 @@
     "@babel/polyfill": "^7.4.3",
     "antd": "^3.16.1",
     "core-js": "^3.0.0",
+    "less-loader": "^4.1.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",

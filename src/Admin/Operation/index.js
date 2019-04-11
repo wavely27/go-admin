@@ -27,24 +27,29 @@ class Operation extends Component {
   }
 
   render() {
-    const {props} = this
-    const {config} = props
-    console.log('config', config)
+    const {config} = this.props
+    const {button, opStyle} = config
     return (
       <div
         style={{
-          padding: '24px',
+          position: 'absolute',
+          zIndex: '10',
+          padding: '0 32px',
           background: '#fbfbfb',
-          border: '1px solid #d9d9d9',
-          borderRadius: '6px',
+          marginTop: '-64px',
+          ...opStyle
         }}
       >
         {/*
           <Row gutter={24}>{this.getFields()}</Row>
         */}
         <Row>
-          <Col span={24} style={{textAlign: 'left'}}>
-            <Button type="primary">添加</Button>
+          <Col span={12} style={{textAlign: 'left'}}>
+            {
+              button.map(btn => {
+                return <Button type={btn.type}>{btn.label}</Button>
+              })
+            }
             {/*
             <Button style={{marginLeft: 8}} type="primary" htmlType="submit">跳转</Button>
             <Button style={{marginLeft: 8}} onClick={this.handleReset}>

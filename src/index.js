@@ -5,8 +5,9 @@ import './style.css'
 import {LocaleProvider} from 'antd'
 import zhCN from 'antd/lib/locale-provider/zh_CN'
 import Admin from "./Admin";
+import globalConfig from './config/listConfig'
 // import globalConfig from './listConfig'
-import globalConfig from './formConfig'
+// import globalConfig from './formConfig'
 
 
 class GoAdmin extends Component {

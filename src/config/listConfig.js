@@ -1,29 +1,7 @@
-import {Divider} from "antd";
+import {Divider, Icon} from "antd";
 import React from "react";
-
-const positionOptions = [{
-  value: 'zhejiang',
-  label: 'Zhejiang',
-  children: [{
-    value: 'hangzhou',
-    label: 'Hangzhou',
-    children: [{
-      value: 'xihu',
-      label: 'West Lake',
-    }],
-  }],
-}, {
-  value: 'jiangsu',
-  label: 'Jiangsu',
-  children: [{
-    value: 'nanjing',
-    label: 'Nanjing',
-    children: [{
-      value: 'zhonghuamen',
-      label: 'Zhong Hua Men',
-    }],
-  }],
-}];
+// import history from '@/common/route/history'
+// import {getDeliveryList, deliveryOnline, deliveryOffline} from '@/services/apis/delivery'
 
 const filterConfig = {
   options: {
@@ -38,12 +16,12 @@ const filterConfig = {
       label: "定位",
       holder: 2,
       itemProps: {
-        wrapperCol:{span: 16}
+        wrapperCol: {span: 16}
       },
       fieldProps: {},
       innerProps: {
         placeholder: "请选择投放定位",
-        options: positionOptions,
+        options: [],
       }
     },
     {
@@ -73,7 +51,25 @@ const filterConfig = {
   ]
 }
 
-const operationConfig = {}
+const operationConfig = {
+  button: [
+    {
+      label: (
+        <span>
+          <Icon type="add" />
+          {'新建投放'}
+        </span>
+      ),
+      opStyle: {
+
+      },
+      onClick: (core) => {
+
+        console.log('core', core)
+      }
+    },
+  ]
+}
 
 const data = [{
   "creator": 1,
@@ -90,7 +86,7 @@ const data = [{
       "fieldValue": "描述1",
       "mateType": 1,
       "templateId": 1
-    },{
+    }, {
       "fieldAttribute": {},
       "fieldDesc": "string",
       "fieldId": "el2",
@@ -125,7 +121,7 @@ const columns0 = [{
   width: 160,
 }];
 
-elementList.forEach((obj, i) => {
+elementList.forEach((obj) => {
 
   columns0.push({
     title: obj.fieldName,
@@ -134,12 +130,22 @@ elementList.forEach((obj, i) => {
     render: (text, record) => {
       return (
         <div>
-          {record.elementList[i].fieldValue}
+          {record.fieldValue}
         </div>
       )
     }
   })
 })
+
+const handleOn = (record) => {
+  const {deliveryId} = record
+  console.log('deliveryId', deliveryId)
+}
+
+const handleOff = (record) => {
+  const {deliveryId} = record
+  console.log('deliveryId', deliveryId)
+}
 
 const columns2 = [{
   title: '操作人',
@@ -153,20 +159,61 @@ const columns2 = [{
   width: 220,
 }, {
   title: '状态',
-  dataIndex: 'status',
-  key: 'status',
+  dataIndex: 'statusStr',
+  key: 'statusStr',
   width: 120,
 }, {
   title: '操作',
   key: 'action',
   width: 160,
-  render: () => (
+  render: (text, record) => (
     <span>
-      <a href="">
+      <a
+        href=""
+        onClick={
+          (e) => {
+            e.preventDefault()
+            console.log('history.push', record.deliveryId)
+            // history.push({
+            //   url: '',
+            //   data: {}
+            // })
+          }
+        }
+      >
         修改
       </a>
       <Divider type="vertical" />
-      <a href="">上线</a>
+      {
+        record.status === 1
+          ? (
+            <a
+              href=""
+              onClick={
+                (e) => {
+                  e.preventDefault()
+                  handleOff(record)
+                }
+              }
+            >
+              下线
+            </a>
+          )
+          : (
+            <a
+              href=""
+              onClick={
+                (e) => {
+                  e.preventDefault()
+                  handleOn(record)
+                }
+              }
+            >
+              上线
+            </a>
+          )
+      }
+
     </span>
   ),
 }];
@@ -174,7 +221,9 @@ const columns2 = [{
 const columns = columns0.concat(columns2)
 
 const listConfig = {
-  "rowKey": "deliveryId",
+  options: {
+    "rowKey": "deliveryId",
+  },
   columns,
   data,
 }
@@ -183,4 +232,7 @@ export default {
   filterConfig,
   operationConfig,
   listConfig,
+  request: () => {
+    console.log('request')
+  },
 }

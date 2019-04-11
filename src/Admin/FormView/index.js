@@ -4,6 +4,7 @@ import {
 } from 'antd'
 import PropTypes from "prop-types";
 import getItem from './getItem'
+import './style.css'
 
 const {Item} = Form
 
@@ -134,7 +135,6 @@ class FormContent extends Component {
       </Row>
     )
     if (formConfig) {
-      console.log('formConfig123', formConfig)
       const {onOk} = formConfig
       more = null
       btn = (
@@ -149,14 +149,11 @@ class FormContent extends Component {
       )
     }
 
-    // console.log('this.props', this.props)
     return (
       <Form
         style={{
-          padding: '34px',
+          padding: '32px',
           background: '#fbfbfb',
-          border: '1px solid #d9d9d9',
-          borderRadius: '6px',
         }}
         onSubmit={this.handleSearch}
       >

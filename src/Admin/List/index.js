@@ -33,9 +33,16 @@ class List extends Component {
     const {props} = this
     const {config, dataSource} = props
     const {options, columns} = config
-    console.log('1111--options, dataSource', options, dataSource)
     return (
-      <Table {...options} columns={columns} dataSource={dataSource} />
+      <Table
+        style={{
+          padding: '0 32px 24px',
+          background: '#fbfbfb',
+        }}
+        {...options}
+        columns={columns}
+        dataSource={dataSource}
+      />
     )
   }
 }
