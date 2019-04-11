@@ -5,11 +5,16 @@ import Operation from './Operation'
 import List from './List'
 // import config from "../listConfig";
 // import config from "../formConfig";
+import history from '../utils/history'
+import utils from '../utils'
+import './style.css'
 
 class Admin extends Component {
 
+  params = {}
+
   static defaultProps = {
-    config: {}
+    config: {},
   }
 
   static propTypes = {
@@ -21,19 +26,17 @@ class Admin extends Component {
     this.state = {
       dataSource: []
     }
+    console.log('Admin____props', props, history, history.location.search)
+    this.params = utils.searchToObj(history.location.search)
   }
 
   componentDidMount() {
-    const {props, state} = this
-    const {params} = state
-    const {config} = props
-    const {request} = config
-    if (0) {
-      request && request(params)
-        .then(res => {
-          console.log('res', res)
-        })
-    }
+    this.qeuryList(this.params)
+  }
+
+  componentWillReceiveProps() {
+    // console.log('admin-_-params', nextProps)
+    // this.params = {}
   }
 
   afterSuccess = (res) => {
@@ -47,6 +50,8 @@ class Admin extends Component {
     const {props} = this
     const {config} = props
     const {request, afterSuccess=this.afterSuccess} = config
+
+    console.log('request', request)
 
     request && request(params)
       .then(res => {
@@ -64,15 +69,25 @@ class Admin extends Component {
     let children = <div>Admin Missing configuration</div>
     if (formConfig) {
       children =
-        <div style={{minWidth: 960}}>
-          <FormView formConfig={formConfig} />
+        <div style={{
+          position: 'relative',
+          minWidth: 1024,
+          background: '#FFFFFF',
+        }}
+        >
+          <FormView formConfig={formConfig} core={this} />
         </div>
     } else if (filterConfig && operationConfig && listConfig) {
       children =
-        <div style={{minWidth: 960}}>
-          <FormView filterConfig={filterConfig} />
-          <Operation config={operationConfig} />
-          <List config={listConfig} dataSource={state.dataSource} />
+        <div style={{
+          position: 'relative',
+          minWidth: 1024,
+          background: '#FFFFFF',
+        }}
+        >
+          <FormView filterConfig={filterConfig} core={this} />
+          <Operation config={operationConfig} core={this} />
+          <List config={listConfig} dataSource={state.dataSource} core={this} />
         </div>
     }
 

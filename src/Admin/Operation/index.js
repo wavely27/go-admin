@@ -7,12 +7,14 @@ import PropTypes from "prop-types";
 class Operation extends Component {
 
   static defaultProps = {
+    core: {},
     config: {
       button: []
-    }
+    },
   }
 
   static propTypes = {
+    core: PropTypes.object,
     config: PropTypes.object,
   }
 
@@ -27,7 +29,7 @@ class Operation extends Component {
   }
 
   render() {
-    const {config} = this.props
+    const {core, config} = this.props
     const {button, opStyle} = config
     return (
       <div
@@ -35,7 +37,6 @@ class Operation extends Component {
           position: 'absolute',
           zIndex: '10',
           padding: '0 32px',
-          background: '#fbfbfb',
           marginTop: '-64px',
           ...opStyle
         }}
@@ -46,8 +47,8 @@ class Operation extends Component {
         <Row>
           <Col span={12} style={{textAlign: 'left'}}>
             {
-              button.map(btn => {
-                return <Button type={btn.type}>{btn.label}</Button>
+              button.map((btn, i) => {
+                return <Button key={i} type={btn.type} onClick={(e)=>{btn.onClick(e, core)}}>{btn.label}</Button>
               })
             }
             {/*

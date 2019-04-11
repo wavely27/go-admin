@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
-import ReactDom from 'react-dom'
+// import ReactDom from 'react-dom'
 import PropTypes from 'prop-types';
 import './style.css'
 import {LocaleProvider} from 'antd'
 import zhCN from 'antd/lib/locale-provider/zh_CN'
 import Admin from "./Admin";
-import globalConfig from './config/listConfig'
+// import globalConfig from './config/listConfig'
 // import globalConfig from './listConfig'
 // import globalConfig from './formConfig'
 
@@ -13,7 +13,7 @@ import globalConfig from './config/listConfig'
 class GoAdmin extends Component {
 
   static defaultProps = {
-    config: {}
+    config: {},
   }
 
   static propTypes = {
@@ -27,6 +27,7 @@ class GoAdmin extends Component {
 
   render() {
     const {config} = this.props
+    console.log('GoAdmin--config', config)
     return (
       <LocaleProvider locale={zhCN}>
         <Admin config={config} ref={core => this.core = core} />
@@ -35,12 +36,12 @@ class GoAdmin extends Component {
   }
 }
 
-ReactDom.render(
-  <div className='content'>
-    <GoAdmin config={globalConfig} />
-  </div>
-  ,
-  document.getElementById('root')
-)
+// ReactDom.render(
+//   <div className='content'>
+//     <GoAdmin config={globalConfig} />
+//   </div>
+//   ,
+//   document.getElementById('root')
+// )
 
 export default GoAdmin

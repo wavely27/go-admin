@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 class List extends Component {
 
   static defaultProps = {
+    core: {},
     config: {
       columns: [],
       data: [],
@@ -16,6 +17,7 @@ class List extends Component {
 
   static propTypes = {
     config: PropTypes.object,
+    core: PropTypes.object,
     dataSource: PropTypes.array,
   }
 
@@ -37,7 +39,6 @@ class List extends Component {
       <Table
         style={{
           padding: '0 32px 24px',
-          background: '#fbfbfb',
         }}
         {...options}
         columns={columns}

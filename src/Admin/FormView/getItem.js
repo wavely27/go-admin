@@ -1,7 +1,6 @@
 import React from "react";
-import {Cascader, DatePicker, Input} from "antd";
+import {Cascader, DatePicker, Input, Select} from "antd";
 import PropTypes from "prop-types";
-
 
 const getItem = ({component, innerProps}, formFlag) => {
   const options = {
@@ -19,6 +18,16 @@ const getItem = ({component, innerProps}, formFlag) => {
       return <Input {...options} />
     case 'DatePicker':
       return <DatePicker {...options} />
+    case 'Select':
+      return (
+        <Select {...options}>
+          {
+            options.options.map(opt => (
+              <Select.Option key={opt.key} value={opt.key}>{opt.value}</Select.Option>
+            ))
+          }
+        </Select>
+      )
     default:
       return <Input {...options} />
   }

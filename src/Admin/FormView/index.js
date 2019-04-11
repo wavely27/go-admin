@@ -4,19 +4,20 @@ import {
 } from 'antd'
 import PropTypes from "prop-types";
 import getItem from './getItem'
-import './style.css'
 
 const {Item} = Form
 
 class FormContent extends Component {
 
   static defaultProps = {
+    core: {},
     form: {},
     formConfig: null,
     filterConfig: null,
   }
 
   static propTypes = {
+    core: PropTypes.object,
     form: PropTypes.object,
     formConfig: PropTypes.object,
     filterConfig: PropTypes.object,
@@ -153,7 +154,6 @@ class FormContent extends Component {
       <Form
         style={{
           padding: '32px',
-          background: '#fbfbfb',
         }}
         onSubmit={this.handleSearch}
       >

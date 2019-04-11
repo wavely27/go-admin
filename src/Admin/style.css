@@ -4,6 +4,6 @@
 .ant-table-thead>tr>th {
   background-color: #F0F0F0 !important;
 }
-.ant-table-tbody>tr:hover {
+.ant-table-tbody>tr:hover td {
   background-color: #FAFAFA !important;
 }

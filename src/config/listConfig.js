@@ -52,19 +52,16 @@ const filterConfig = {
 }
 
 const operationConfig = {
+  opStyle: {},
   button: [
     {
       label: (
         <span>
-          <Icon type="add" />
+          <Icon type="plus" />
           {'新建投放'}
         </span>
       ),
-      opStyle: {
-
-      },
-      onClick: (core) => {
-
+      onClick: (e, core) => {
         console.log('core', core)
       }
     },
