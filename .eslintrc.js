@@ -35,7 +35,7 @@ module.exports = {
     'no-return-assign': 0,
     // 'no-eval': 0,
     // 'no-unused-expressions': 0,
-    // 'no-debugger': 0,
+    'no-debugger': 0,
     // 'no-unused-vars': 0,
     // 'jsx-a11y/no-static-element-interactions': 0,
     // 'react/forbid-prop-types': 0,

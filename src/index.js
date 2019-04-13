@@ -27,7 +27,6 @@ class GoAdmin extends Component {
 
   render() {
     const {config} = this.props
-    console.log('GoAdmin--config', config)
     return (
       <LocaleProvider locale={zhCN}>
         <Admin config={config} ref={core => this.core = core} />

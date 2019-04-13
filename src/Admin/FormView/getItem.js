@@ -1,6 +1,8 @@
 import React from "react";
-import {Cascader, DatePicker, Input, Select} from "antd";
+import {Cascader, DatePicker, Input, Select, Checkbox} from "antd";
 import PropTypes from "prop-types";
+
+const {CheckboxGroup} = Checkbox
 
 const getItem = ({component, innerProps}, formFlag) => {
   const options = {
@@ -18,6 +20,10 @@ const getItem = ({component, innerProps}, formFlag) => {
       return <Input {...options} />
     case 'DatePicker':
       return <DatePicker {...options} />
+    case 'Checkbox':
+      return <Checkbox {...options} />
+    case 'CheckboxGroup':
+      return <CheckboxGroup {...options} />
     case 'Select':
       return (
         <Select {...options}>

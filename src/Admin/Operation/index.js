@@ -41,9 +41,6 @@ class Operation extends Component {
           ...opStyle
         }}
       >
-        {/*
-          <Row gutter={24}>{this.getFields()}</Row>
-        */}
         <Row>
           <Col span={12} style={{textAlign: 'left'}}>
             {
@@ -51,12 +48,6 @@ class Operation extends Component {
                 return <Button key={i} type={btn.type} onClick={(e)=>{btn.onClick(e, core)}}>{btn.label}</Button>
               })
             }
-            {/*
-            <Button style={{marginLeft: 8}} type="primary" htmlType="submit">跳转</Button>
-            <Button style={{marginLeft: 8}} onClick={this.handleReset}>
-              批量删除
-            </Button>
-            */}
           </Col>
         </Row>
       </div>

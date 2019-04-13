@@ -47,9 +47,10 @@ class FormContent extends Component {
     const {getFieldDecorator} = props.form;
 
     const children = config.form.map((item, i) => {
-      const {label, itemKey, prefix, colSpan, itemProps={}, fieldProps={}, holder=1} = item
+      const {label, itemKey, prefix, suffix, colSpan, itemProps={}, fieldProps={}, holder=1} = item
 
-      const prefixWrap = prefix && <span style={{paddingRight: 20}}>{prefix}</span>
+      const prefixWrap = prefix && <span style={{paddingRight: 12}}>{prefix}</span>
+      const suffixWrap = suffix && <span style={{paddingLeft: 12}}>{suffix}</span>
       const fixLabel = typeof label === 'string'
         ? <span style={{width: 64}}>{label}</span>
         : label
@@ -68,6 +69,7 @@ class FormContent extends Component {
               })(
                 getItem(item, formFlag)
               )}
+              {suffixWrap}
             </Item>
           </Col>
         )
@@ -81,6 +83,7 @@ class FormContent extends Component {
               })(
                 getItem(item, formFlag)
               )}
+              {suffixWrap}
             </Item>
           </Col>
         )
@@ -94,6 +97,8 @@ class FormContent extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       console.log('Received values of form: ', values);
+
+      this.props.core.queryList()
     });
   }
 
@@ -108,7 +113,7 @@ class FormContent extends Component {
 
   render() {
     const {props} = this
-    const {formConfig, filterConfig} = props
+    const {core, formConfig, filterConfig} = props
 
     let more = (
       <a style={{marginLeft: 8, fontSize: 12}} onClick={this.toggle}>
@@ -136,13 +141,13 @@ class FormContent extends Component {
       </Row>
     )
     if (formConfig) {
-      const {onOk} = formConfig
+      const {onOk, onBack} = formConfig
       more = null
       btn = (
         <Row>
           <Col span={24} style={{textAlign: 'right'}}>
-            <Button type="primary" onClick={()=>onOk(props.form, formConfig.params)}>保存</Button>
-            <Button style={{marginLeft: 8}} onClick={this.handleReset}>
+            <Button type="primary" onClick={()=>onOk(props.form, formConfig.params, core)}>保存</Button>
+            <Button style={{marginLeft: 8}} onClick={onBack}>
               返回
             </Button>
           </Col>
