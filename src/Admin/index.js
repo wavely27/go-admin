@@ -57,7 +57,9 @@ class Admin extends Component {
 
   componentDidMount() {
     const {history} = this.props
+    console.log('111', history)
     if (history) {
+      console.log('history', history)
       this.getHistory(history)
     }
     const {options={}} = this.props.config
@@ -69,10 +71,14 @@ class Admin extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((nextProps.history && this.props.history) &&
-      (nextProps.history.location.search !== this.props.history.location.search
-      || nextProps.history.location.pathname !== this.props.history.location.pathname)
-    ) {
+    // if ((nextProps.history && this.props.history) &&
+    //   (nextProps.history.location.search !== this.props.history.location.search
+    //   || nextProps.history.location.pathname !== this.props.history.location.pathname)
+    //   || (nextProps.history && !this.props.history)
+    // ) {
+    //   this.getHistory(nextProps.history)
+    // }
+    if (nextProps.history) {
       this.getHistory(nextProps.history)
     }
     // console.log('admin-_-params', nextProps)
@@ -89,11 +95,7 @@ class Admin extends Component {
   }
 
   refresh = (params, page) => {
-    const pager = {
-      ...page,
-      pageNo: page.page
-    }
-    this.queryList(params, pager)
+    this.queryList(params, page)
   }
 
   savePagination = (pagination) => {

@@ -1,10 +1,11 @@
 import React from "react";
 import {Cascader, DatePicker, Input, Select, Checkbox} from "antd";
 import PropTypes from "prop-types";
+import PicturesWall from '../components/Upload'
 
 const {CheckboxGroup} = Checkbox
 
-const getItem = ({component, innerProps}, formFlag) => {
+const getItem = ({component, componentType, innerProps}, formFlag, core, itemKey) => {
   const options = {
     style: {
       flex: 1,
@@ -24,6 +25,11 @@ const getItem = ({component, innerProps}, formFlag) => {
       return <Checkbox {...options} />
     case 'CheckboxGroup':
       return <CheckboxGroup {...options} />
+    case 'Upload':
+      if (componentType) {
+        return <PicturesWall options={options} core={core} itemKey={itemKey} />
+      }
+      return <PicturesWall options={options} core={core} itemKey={itemKey} />
     case 'Select':
       return (
         <Select {...options}>
@@ -41,11 +47,13 @@ const getItem = ({component, innerProps}, formFlag) => {
 
 getItem.defaultProps = {
   component: 'Input',
+  componentType: null,
   innerProps: {},
 }
 
 getItem.propTypes = {
   component: PropTypes.string,
+  componentType: PropTypes.string,
   innerProps: PropTypes.object,
 }
 

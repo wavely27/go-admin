@@ -42,15 +42,16 @@ class List extends Component {
     return result
   }
 
-  updateTablePage = (page, pageSize) => {
-    console.log('page, pageSize', page, pageSize)
+  updateTablePage = (pageNo, pageSize) => {
+    console.log('pageNo, pageSize', pageNo, pageSize)
     const {props} = this
     props.core.savePagination({
-      page,
+      pageNo,
+      currentPage: pageNo,
       pageSize,
     })
     props.core.refresh(null, {
-      page,
+      pageNo,
       pageSize,
     })
   }

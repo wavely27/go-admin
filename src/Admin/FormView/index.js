@@ -32,7 +32,7 @@ class FormContent extends Component {
 
   getFields = () => {
     const {props, state} = this
-    const {formConfig, filterConfig} = props
+    const {formConfig, filterConfig, core} = props
     const config = formConfig || filterConfig
     const {colCount=3, layout} = config.options
     let formFlag = false
@@ -47,10 +47,10 @@ class FormContent extends Component {
     const {getFieldDecorator} = props.form;
 
     const children = config.form.map((item, i) => {
-      const {label, itemKey, prefix, suffix, colSpan, itemProps={}, fieldProps={}, holder=1} = item
+      const {label, itemKey, prefix, prefixWrapStyle={}, suffix, suffixWrapStyle={}, colSpan, itemProps={}, fieldProps={}, holder=1} = item
 
-      const prefixWrap = prefix && <span style={{paddingRight: 12}}>{prefix}</span>
-      const suffixWrap = suffix && <span style={{paddingLeft: 12}}>{suffix}</span>
+      const prefixWrap = prefix && <span style={{paddingRight: 12, ...prefixWrapStyle}}>{prefix}</span>
+      const suffixWrap = suffix && <span style={{paddingLeft: 12, ...suffixWrapStyle}}>{suffix}</span>
       const fixLabel = typeof label === 'string'
         ? <span style={{width: 64}}>{label}</span>
         : label
@@ -62,12 +62,12 @@ class FormContent extends Component {
         labelEle = undefined
         child = (
           <Col span={colSpan || 8 * holder} key={i} style={{display:layout !== 'horizontal' || i < count ? 'block' : 'none'}}>
-            <Item label={labelEle} {...itemProps} style={{display: 'flex', ...itemProps.style}}>
+            <Item label={labelEle} {...itemProps} style={{display: 'flex', position: 'relative', ...itemProps.style}}>
               {prefixWrap}
               {getFieldDecorator(itemKey, {
                 ...fieldProps
               })(
-                getItem(item, formFlag)
+                getItem(item, formFlag, core, itemKey)
               )}
               {suffixWrap}
             </Item>
@@ -76,12 +76,12 @@ class FormContent extends Component {
       } else {
         child = (
           <Col span={colSpan || colNumber * holder} key={i} style={{display:layout !== 'horizontal' || i < count ? 'block' : 'none'}}>
-            <Item label={labelEle} {...itemProps} style={{display: 'flex', ...itemProps.style}}>
+            <Item label={labelEle} {...itemProps} style={{display: 'flex', position: 'relative', ...itemProps.style}}>
               {prefixWrap}
               {getFieldDecorator(itemKey, {
                 ...fieldProps
               })(
-                getItem(item, formFlag)
+                getItem(item, formFlag, core, itemKey)
               )}
               {suffixWrap}
             </Item>
