@@ -51,9 +51,6 @@ class PicturesWall extends React.Component {
   // handleChange = ({ fileList }) => this.setState({ fileList })
 
   handleChange = (info) => {
-    // if (info.file.status !== 'uploading') {
-    //   console.log(info.file, info.fileList);
-    // }
     const {core, itemKey} = this.props
     // console.log('info', info)
     // console.log('info.file', info.file)

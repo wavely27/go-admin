@@ -58,7 +58,6 @@ class Admin extends Component {
   componentDidMount() {
     const {history} = this.props
     if (history) {
-      console.log('history', history)
       this.getHistory(history)
     }
     const {options = {}} = this.props.config
@@ -76,7 +75,6 @@ class Admin extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('3', 3)
     if (nextProps.history) {
       this.getHistory(nextProps.history)
     }
@@ -118,7 +116,6 @@ class Admin extends Component {
   }
 
   queryList = (params, pageParams) => {
-    console.log('2', 2)
     const {props} = this
     const {config} = props
     const {request, afterSuccess = this.afterSuccess, options = {}} = config
@@ -148,7 +145,6 @@ class Admin extends Component {
     const paramsData = {...fixParams, ...page}
     const paramsDataClear = utils.objClear(paramsData)
     this.saveParams(paramsDataClear)
-    console.log('paramsDataClear', paramsDataClear)
     request && request(paramsDataClear)
       .then(res => {
         // after
@@ -187,7 +183,6 @@ class Admin extends Component {
     if (this.formCore && this.formCore.getFieldsValue) {
       fieldsValues = this.formCore.getFieldsValue()
     }
-    console.log('fieldsValues1', fieldsValues)
     // const hash = Math.random().toString().slice(2,8)
     if (formConfig) {
       children =
@@ -203,7 +198,7 @@ class Admin extends Component {
             core={this}
             wrappedComponentRef={inst => this.formInst = inst}
             history={this.history}
-            // fieldsValues={fieldsValues}
+            fieldsValues={fieldsValues}
           />
         </div>
     } else if (filterConfig && operationConfig && listConfig) {
@@ -220,7 +215,7 @@ class Admin extends Component {
             core={this}
             wrappedComponentRef={inst => this.formInst = inst}
             history={this.history}
-            // fieldsValues={fieldsValues}
+            fieldsValues={fieldsValues}
           />
           <Operation
             // key={`opera${hash}`}

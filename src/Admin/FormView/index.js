@@ -109,7 +109,6 @@ class FormContent extends Component {
       if (err) {
         return
       }
-      console.log('1', 1)
       this.props.core.queryList(values, {pageNo: 1})
     });
   }
@@ -191,7 +190,6 @@ const FormView = Form.create({
     if (fieldsValues || options) {
       let data = options.updateValues
       if (fieldsValues && JSON.stringify(fieldsValues) !== "{}") {
-        console.log('fieldsValues2', fieldsValues)
         data = fieldsValues
       }
       if (data) {

@@ -43,7 +43,6 @@ class List extends Component {
   }
 
   updateTablePage = (pageNo, pageSize) => {
-    console.log('pageNo, pageSize', pageNo, pageSize)
     const {props} = this
     props.core.savePagination({
       pageNo,
