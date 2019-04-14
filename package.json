@@ -1,6 +1,6 @@
 {
   "name": "go-admin",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": false,
   "description": "Admin component",
   "main": "dist/main.js",
@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
-    "antd": "^3.16.1",
+    "antd": "^3.16.3",
     "core-js": "^3.0.0",
     "history": "^4.9.0",
     "less-loader": "^4.1.0",

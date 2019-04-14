@@ -57,32 +57,29 @@ class Admin extends Component {
 
   componentDidMount() {
     const {history} = this.props
-    console.log('111', history)
     if (history) {
       console.log('history', history)
       this.getHistory(history)
     }
-    const {options={}} = this.props.config
+    const {options = {}} = this.props.config
     const {MountQuery = true} = options
     if (this.type === 'filter' && MountQuery) {
       this.queryList(this.params)
     }
-    // console.log('this.formCore', this.formCore)
+
+    // formCore
+    if (this.formInst.props) {
+      this.formCore = this.formInst.props.form
+    } else {
+      console.log('err', this)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    // if ((nextProps.history && this.props.history) &&
-    //   (nextProps.history.location.search !== this.props.history.location.search
-    //   || nextProps.history.location.pathname !== this.props.history.location.pathname)
-    //   || (nextProps.history && !this.props.history)
-    // ) {
-    //   this.getHistory(nextProps.history)
-    // }
+    console.log('3', 3)
     if (nextProps.history) {
       this.getHistory(nextProps.history)
     }
-    // console.log('admin-_-params', nextProps)
-    // this.params = {}
   }
 
   getHistory = (history) => {
@@ -113,9 +110,7 @@ class Admin extends Component {
 
   afterSuccess = (res) => {
     const {state} = this
-    const pagination = {...state.pagination, total: res.data.allRow}
-
-    console.log('afterSuccess---------', res)
+    const pagination = {...state.pagination, total: res.data.total || res.data.allRow}
     this.setState({
       dataSource: res.data.list,
       pagination,
@@ -123,10 +118,10 @@ class Admin extends Component {
   }
 
   queryList = (params, pageParams) => {
-    console.log('--------params, pageParams', params, pageParams)
+    console.log('2', 2)
     const {props} = this
     const {config} = props
-    const {request, afterSuccess = this.afterSuccess, options={}} = config
+    const {request, afterSuccess = this.afterSuccess, options = {}} = config
     const {beforeQuery, afterQuery, paginationKey} = options
 
     // page
@@ -135,7 +130,9 @@ class Admin extends Component {
       pageSize: this.pagination.pageSize,
       ...pageParams,
     }
-
+    if (pageParams) {
+      this.savePagination(pageParams)
+    }
     if (paginationKey) {
       page = {
         [paginationKey[0]]: page.pageNo,
@@ -149,15 +146,33 @@ class Admin extends Component {
 
     // request
     const paramsData = {...fixParams, ...page}
-    console.log('paramsData', paramsData)
     const paramsDataClear = utils.objClear(paramsData)
     this.saveParams(paramsDataClear)
+    console.log('paramsDataClear', paramsDataClear)
     request && request(paramsDataClear)
       .then(res => {
+        // after
         const fixRes = (afterQuery && afterQuery(res, this)) || res
-        console.log('res', fixRes)
         fixRes && afterSuccess(fixRes, this)
       })
+  }
+
+  resetFilter = () => {
+    const {options} = this.props.config
+    const {unResetFilterKey} = options
+
+    const values = this.formCore.getFieldsValue()
+
+    this.formCore.resetFields()
+
+    const newValues = {}
+    unResetFilterKey.forEach((key) => {
+      newValues[key] = values[key]
+    })
+
+    this.formCore.setFieldsValue(newValues)
+
+    this.queryList(null, {pageNo: 1})
   }
 
   render() {
@@ -167,6 +182,13 @@ class Admin extends Component {
     const {formConfig, filterConfig, operationConfig, listConfig} = props.config
 
     let children = <div>Admin Missing configuration</div>
+
+    let fieldsValues = {}
+    if (this.formCore && this.formCore.getFieldsValue) {
+      fieldsValues = this.formCore.getFieldsValue()
+    }
+    console.log('fieldsValues1', fieldsValues)
+    // const hash = Math.random().toString().slice(2,8)
     if (formConfig) {
       children =
         <div style={{
@@ -176,11 +198,12 @@ class Admin extends Component {
         }}
         >
           <FormView
+            // key={`form${hash}`}
             formConfig={formConfig}
             core={this}
-            ref={ref => this.formCore = ref}
             wrappedComponentRef={inst => this.formInst = inst}
             history={this.history}
+            // fieldsValues={fieldsValues}
           />
         </div>
     } else if (filterConfig && operationConfig && listConfig) {
@@ -192,19 +215,22 @@ class Admin extends Component {
         }}
         >
           <FormView
+            // key={`filter${hash}`}
             filterConfig={filterConfig}
             core={this}
-            ref={ref => this.formCore = ref}
             wrappedComponentRef={inst => this.formInst = inst}
             history={this.history}
+            // fieldsValues={fieldsValues}
           />
           <Operation
+            // key={`opera${hash}`}
             config={operationConfig}
             core={this}
             ref={ref => this.operationCore = ref}
             history={this.history}
           />
           <List
+            // key={`list${hash}`}
             config={listConfig}
             dataSource={state.dataSource}
             pagination={state.pagination}

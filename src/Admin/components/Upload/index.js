@@ -21,6 +21,24 @@ class PicturesWall extends React.Component {
     options: PropTypes.object,
   }
 
+  componentDidMount() {
+    const {options, core, itemKey} = this.props
+    if (options) {
+      const {setInitialValue, } = options
+      const value = core.formCore.getFieldValue(itemKey)
+      value && setInitialValue && setInitialValue(value, this)
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {options, core, itemKey} = nextProps
+    if (options) {
+      const {setInitialValue, } = options
+      const value = core.formCore.getFieldValue(itemKey)
+      value && setInitialValue && setInitialValue(value, this)
+    }
+  }
+
   handleCancel = () => this.setState({ previewVisible: false })
 
   handlePreview = (file) => {
@@ -65,6 +83,12 @@ class PicturesWall extends React.Component {
     }
   }
 
+  handleRemove = () => {
+    this.setState({
+      fileList: []
+    })
+  }
+
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
     const {options} = this.props
@@ -75,13 +99,14 @@ class PicturesWall extends React.Component {
       </div>
     );
     return (
-      <div className="clearfix">
+      <div className="clearfix bug_fix">
         <Upload
           // action="//jsonplaceholder.typicode.com/posts/"
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
+          onRemove={this.handleRemove}
           {...options}
         >
           {fileList.length >= 1 ? null : uploadButton}

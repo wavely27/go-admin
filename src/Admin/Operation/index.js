@@ -42,10 +42,20 @@ class Operation extends Component {
         }}
       >
         <Row>
-          <Col span={12} style={{textAlign: 'left'}}>
+          <Col key='col-0' span={12} style={{textAlign: 'left'}}>
             {
               button.map((btn, i) => {
-                return <Button key={i} type={btn.type} onClick={(e)=>{btn.onClick(e, core)}}>{btn.label}</Button>
+                return (
+                  <Button
+                    key={i}
+                    type={btn.type}
+                    onClick={
+                      (e)=>{btn.onClick(e, core)}
+                    }
+                  >
+                    {btn.label}
+                  </Button>
+                )
               })
             }
           </Col>

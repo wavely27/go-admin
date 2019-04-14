@@ -14,6 +14,7 @@ class FormContent extends Component {
     form: {},
     formConfig: null,
     filterConfig: null,
+    fieldsValues: null,
   }
 
   static propTypes = {
@@ -21,6 +22,7 @@ class FormContent extends Component {
     form: PropTypes.object,
     formConfig: PropTypes.object,
     filterConfig: PropTypes.object,
+    fieldsValues: PropTypes.object,
   }
 
   constructor(props) {
@@ -34,7 +36,7 @@ class FormContent extends Component {
     const {props, state} = this
     const {formConfig, filterConfig, core} = props
     const config = formConfig || filterConfig
-    const {colCount=3, layout} = config.options
+    const {colCount = 3, layout} = config.options
     let formFlag = false
     if (formConfig) {
       formFlag = true
@@ -47,7 +49,7 @@ class FormContent extends Component {
     const {getFieldDecorator} = props.form;
 
     const children = config.form.map((item, i) => {
-      const {label, itemKey, prefix, prefixWrapStyle={}, suffix, suffixWrapStyle={}, colSpan, itemProps={}, fieldProps={}, holder=1} = item
+      const {label, itemKey, prefix, prefixWrapStyle = {}, suffix, suffixWrapStyle = {}, colSpan, itemProps = {}, fieldProps = {}, holder = 1} = item
 
       const prefixWrap = prefix && <span style={{paddingRight: 12, ...prefixWrapStyle}}>{prefix}</span>
       const suffixWrap = suffix && <span style={{paddingLeft: 12, ...suffixWrapStyle}}>{suffix}</span>
@@ -61,7 +63,11 @@ class FormContent extends Component {
       if (label === undefined) {
         labelEle = undefined
         child = (
-          <Col span={colSpan || 8 * holder} key={i} style={{display:layout !== 'horizontal' || i < count ? 'block' : 'none'}}>
+          <Col
+            span={colSpan || 8 * holder}
+            key={i}
+            style={{display: layout !== 'horizontal' || i < count ? 'block' : 'none'}}
+          >
             <Item label={labelEle} {...itemProps} style={{display: 'flex', position: 'relative', ...itemProps.style}}>
               {prefixWrap}
               {getFieldDecorator(itemKey, {
@@ -75,7 +81,11 @@ class FormContent extends Component {
         )
       } else {
         child = (
-          <Col span={colSpan || colNumber * holder} key={i} style={{display:layout !== 'horizontal' || i < count ? 'block' : 'none'}}>
+          <Col
+            span={colSpan || colNumber * holder}
+            key={i}
+            style={{display: layout !== 'horizontal' || i < count ? 'block' : 'none'}}
+          >
             <Item label={labelEle} {...itemProps} style={{display: 'flex', position: 'relative', ...itemProps.style}}>
               {prefixWrap}
               {getFieldDecorator(itemKey, {
@@ -96,14 +106,16 @@ class FormContent extends Component {
   handleSearch = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      console.log('Received values of form: ', values);
-
-      this.props.core.queryList()
+      if (err) {
+        return
+      }
+      console.log('1', 1)
+      this.props.core.queryList(values, {pageNo: 1})
     });
   }
 
   handleReset = () => {
-    this.props.form.resetFields();
+    this.props.core.resetFilter()
   }
 
   toggle = () => {
@@ -146,7 +158,7 @@ class FormContent extends Component {
       btn = (
         <Row>
           <Col span={24} style={{textAlign: 'right'}}>
-            <Button type="primary" onClick={()=>onOk(props.form, formConfig.params, core)}>保存</Button>
+            <Button type="primary" onClick={() => onOk(props.form, formConfig.params, core)}>保存</Button>
             <Button style={{marginLeft: 8}} onClick={onBack}>
               返回
             </Button>
@@ -169,6 +181,36 @@ class FormContent extends Component {
   }
 }
 
-const FormView = Form.create()(FormContent)
+const FormView = Form.create({
+  mapPropsToFields(props) {
+
+    const result = {}
+    const {fieldsValues, filterConfig, formConfig} = props
+    const config = filterConfig || formConfig
+    const {options} = config
+    if (fieldsValues || options) {
+      let data = options.updateValues
+      if (fieldsValues && JSON.stringify(fieldsValues) !== "{}") {
+        console.log('fieldsValues2', fieldsValues)
+        data = fieldsValues
+      }
+      if (data) {
+        Object.keys(data).forEach(key => {
+          let value
+          if (data[key] && data[key].value) {
+            value = data[key].value /* eslint-disable-line */
+          } else {
+            value = data[key]
+          }
+          result[key] = Form.createFormField({
+            ...data[key],
+            value,
+          })
+        })
+      }
+    }
+    return result
+  }
+})(FormContent)
 
 export default FormView

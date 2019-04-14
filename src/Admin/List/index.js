@@ -47,7 +47,7 @@ class List extends Component {
     const {props} = this
     props.core.savePagination({
       pageNo,
-      currentPage: pageNo,
+      current: pageNo,
       pageSize,
     })
     props.core.refresh(null, {
@@ -74,8 +74,8 @@ class List extends Component {
         {...options}
         pagination={{
           size: pagination.size || "middle",
-          current: pagination.page || 1,
-          page: pagination.page || 1,
+          current: pagination.pageNo || 1,
+          page: pagination.pageNo || 1,
           pageSize: pagination.pageSize,
           total: pagination.total || 0,
           onChange: this.updateTablePage,
