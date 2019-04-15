@@ -21,7 +21,7 @@ class Admin extends Component {
 
   static defaultProps = {
     config: {},
-    history: null,
+    history: undefined,
   }
 
   static propTypes = {
@@ -82,6 +82,7 @@ class Admin extends Component {
 
   getHistory = (history) => {
     this.history = history
+    this.paramsObj = utils.searchToObj(history.location.search)
     this.params = utils.searchToObj(history.location.search)
   }
 
@@ -188,7 +189,7 @@ class Admin extends Component {
       children =
         <div style={{
           position: 'relative',
-          minWidth: 1200,
+          minWidth: 980,
           background: '#FFFFFF',
         }}
         >
@@ -205,7 +206,7 @@ class Admin extends Component {
       children =
         <div style={{
           position: 'relative',
-          minWidth: 1200,
+          minWidth: 980,
           background: '#FFFFFF',
         }}
         >

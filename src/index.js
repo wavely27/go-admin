@@ -14,10 +14,12 @@ class GoAdmin extends Component {
 
   static defaultProps = {
     config: {},
+    history: {},
   }
 
   static propTypes = {
     config: PropTypes.object,
+    history: PropTypes.object,
   }
 
   constructor(props) {
@@ -26,10 +28,10 @@ class GoAdmin extends Component {
   }
 
   render() {
-    const {config} = this.props
+    const {config, history} = this.props
     return (
       <LocaleProvider locale={zhCN}>
-        <Admin config={config} ref={core => this.core = core} />
+        <Admin config={config} ref={core => this.core = core} history={history} />
       </LocaleProvider>
     )
   }
