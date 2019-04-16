@@ -50,7 +50,7 @@ class FormContent extends Component {
     const count = state.expand ? 10 : colCount * 2;
     const {getFieldDecorator} = props.form;
 
-    const children = config.form.map((item, i) => {
+    const children = config.form.map((item={}, i) => {
       const {ifAction} = item
 
       const thisItem = ifAction && ifAction(form, core)
