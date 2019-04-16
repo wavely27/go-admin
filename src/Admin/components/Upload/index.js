@@ -52,7 +52,7 @@ class PicturesWall extends React.Component {
 
   handleChange = (info) => {
     const {core, itemKey} = this.props
-    // console.log('info', info)
+    console.log('info1', info)
     // console.log('info.file', info.file)
     const {file} = info
     this.setState({
@@ -60,6 +60,7 @@ class PicturesWall extends React.Component {
     })
     if (info.file.status === 'done') {
       const {response = {}} = info.file
+      console.log('info-done', info)
       if (response.status === 1) {
         core.formCore.setFieldsValue({
           [itemKey]: response.url
@@ -81,8 +82,13 @@ class PicturesWall extends React.Component {
   }
 
   handleRemove = () => {
+    const {core, itemKey} = this.props
+
     this.setState({
       fileList: []
+    })
+    core.formCore.setFieldsValue({
+      [itemKey]: undefined
     })
   }
 

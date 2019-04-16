@@ -56,10 +56,11 @@ class FormContent extends Component {
       const thisItem = ifAction && ifAction(form, core)
       const {exist=true,label, itemKey, prefix, prefixWrapStyle = {}, suffix, suffixWrapStyle = {}, colSpan, itemProps = {}, fieldProps = {}, holder = 1} = {...item, ...thisItem}
 
+      const {labelStyle={}} = itemProps
       const prefixWrap = prefix && <span style={{paddingRight: 12, ...prefixWrapStyle}}>{prefix}</span>
       const suffixWrap = suffix && <span style={{paddingLeft: 12, ...suffixWrapStyle}}>{suffix}</span>
       const fixLabel = typeof label === 'string'
-        ? <span style={{width: 64}}>{label}</span>
+        ? <span style={{width: 64, ...labelStyle}}>{label}</span>
         : label
       let labelEle = <div style={{display: 'inline-flex',}}>{fixLabel}</div>
       let child = (
