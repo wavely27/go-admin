@@ -186,18 +186,6 @@ class Admin extends Component {
       console.log('e', e)
     })
 
-    // if (request) {
-    //   console.log('request', request)
-    //   console.log('request()', request())
-    //   console.log('request().then', request().then)
-    //   // request && request(paramsDataClear)
-    //   //   .then(res => {
-    //   //     // after
-    //   //     const fixRes = (afterQuery && afterQuery(res, this)) || res
-    //   //     fixRes && afterSuccess(fixRes, this)
-    //   //   })
-    // }
-
   }
 
   resetFilter = () => {
@@ -227,9 +215,12 @@ class Admin extends Component {
     let children = <div>Admin Missing configuration</div>
 
     let fieldsValues = {}
+
     if (this.formCore && this.formCore.getFieldsValue) {
-      fieldsValues = this.formCore.getFieldsValue()
+      this.fieldsValuesTemp = this.formCore.getFieldsValue()
+      fieldsValues = this.fieldsValuesTemp
     }
+
     // const hash = Math.random().toString().slice(2,8)
     let fixDataSource = []
     if (state.dataSource && state.dataSource instanceof Array) {

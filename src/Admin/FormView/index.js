@@ -64,10 +64,6 @@ class FormContent extends Component {
       const thisItem = ifAction && ifAction(form, core)
       const {exist = true, label, itemKey, prefix, prefixWrapStyle = {}, suffix, suffixWrapStyle = {}, colSpan, itemProps = {}, fieldProps = {}, holder = 1} = {...item, ...thisItem}
 
-      // console.log('render', render)
-      // if (render && typeof render === "function") {
-      //   console.log('render', render)
-      // }
       const {labelStyle = {}} = itemProps
       const prefixWrap = prefix && <span style={{paddingRight: 12, ...prefixWrapStyle}}>{prefix}</span>
       const suffixWrap = suffix && <span style={{paddingLeft: 12, ...suffixWrapStyle}}>{suffix}</span>
@@ -167,7 +163,7 @@ class FormContent extends Component {
     let btn = (
       <Row>
         <Col span={24} style={{textAlign: 'right'}}>
-          <Button type="primary" htmlType="submit">查询</Button>
+          <Button type="primary" onClick={this.handleSearch}>查询</Button>
           <Button style={{marginLeft: 8}} onClick={this.handleReset}>
             重置
           </Button>
@@ -195,7 +191,6 @@ class FormContent extends Component {
         style={{
           padding: '32px',
         }}
-        onSubmit={this.handleSearch}
       >
         <Row gutter={24}>{this.getFields()}</Row>
         {btn}
@@ -206,7 +201,6 @@ class FormContent extends Component {
 
 const FormView = Form.create({
   mapPropsToFields(props) {
-
     const result = {}
     const {fieldsValues, filterConfig, formConfig} = props
     const config = filterConfig || formConfig
@@ -217,17 +211,16 @@ const FormView = Form.create({
         data = fieldsValues
       }
       if (data) {
-        Object.keys(data).forEach(key => {
+        Object.keys(data).forEach((key) => {
           let realValue
           if (data[key] && data[key].value) {
             realValue = data[key].value
-            /* eslint-disable-line */
           } else {
             realValue = data[key]
           }
           result[key] = Form.createFormField({
             ...data[key],
-            realValue,
+            value: realValue,
           })
         })
       }
