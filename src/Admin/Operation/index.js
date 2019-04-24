@@ -3,6 +3,7 @@ import {
   Row, Col, Button
 } from 'antd'
 import PropTypes from "prop-types";
+import styles from './style.module.css'
 
 class Operation extends Component {
 
@@ -42,11 +43,12 @@ class Operation extends Component {
         }}
       >
         <Row>
-          <Col key='col-0' span={12} style={{textAlign: 'left'}}>
+          <Col key='col-0' span={12} className={styles.buttonCol}>
             {
-              button.map((btn, i) => {
+              button && button.map((btn, i) => {
                 return (
                   <Button
+                    className={styles.button}
                     key={i}
                     type={btn.type}
                     onClick={

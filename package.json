@@ -1,8 +1,7 @@
 {
   "name": "go-admin",
-  "version": "0.1.13",
+  "version": "0.1.16",
   "private": false,
-
   "description": "Admin component",
   "main": "dist/main.js",
   "files": [

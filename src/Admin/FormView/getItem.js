@@ -5,15 +5,20 @@ import PicturesWall from '../components/Upload'
 
 const {CheckboxGroup} = Checkbox
 
-const getItem = ({component, componentType, innerProps}, formFlag, core, itemKey) => {
+const getItem = ({component, componentType, innerProps, render, setValue}, formFlag, core, itemKey) => {
+  let mixWidth = ''
+  if (formFlag) {
+    mixWidth = 200
+  }
   const options = {
     style: {
       flex: 1,
-      width: formFlag && 200
+      width: mixWidth,
     },
     placeholder: "请输入内容",
     ...innerProps,
   }
+
   switch (component) {
     case 'Cascader':
       return <Cascader {...options} />
@@ -40,6 +45,8 @@ const getItem = ({component, componentType, innerProps}, formFlag, core, itemKey
           }
         </Select>
       )
+    case 'Any':
+      return render && render(setValue)
     default:
       return <Input {...options} />
   }
@@ -49,12 +56,16 @@ getItem.defaultProps = {
   component: 'Input',
   componentType: null,
   innerProps: {},
+  render: undefined,
+  setValue: undefined,
 }
 
 getItem.propTypes = {
   component: PropTypes.string,
   componentType: PropTypes.string,
   innerProps: PropTypes.object,
+  render: PropTypes.func,
+  setValue: PropTypes.func,
 }
 
 export default getItem

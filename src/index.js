@@ -5,10 +5,8 @@ import './style.css'
 import {LocaleProvider} from 'antd'
 import zhCN from 'antd/lib/locale-provider/zh_CN'
 import Admin from "./Admin";
-// import globalConfig from './config/listConfig'
-// import globalConfig from './listConfig'
-// import globalConfig from './formConfig'
 
+// import config from './config/listConfig'
 
 class GoAdmin extends Component {
 
@@ -28,10 +26,10 @@ class GoAdmin extends Component {
   }
 
   render() {
-    const {config, history} = this.props
+    const {props} = this
     return (
       <LocaleProvider locale={zhCN}>
-        <Admin config={config} ref={core => this.core = core} history={history} />
+        <Admin config={props.config} ref={core => this.core = core} history={props.history} />
       </LocaleProvider>
     )
   }
@@ -39,10 +37,14 @@ class GoAdmin extends Component {
 
 // ReactDom.render(
 //   <div className='content'>
-//     <GoAdmin config={globalConfig} />
+//     <GoAdmin config={config} />
 //   </div>
 //   ,
 //   document.getElementById('root')
 // )
+
+export {
+  // GoModal
+}
 
 export default GoAdmin

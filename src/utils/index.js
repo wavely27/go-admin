@@ -3,7 +3,7 @@
 // url请求参数转对象
 const searchToObj = (search) => {
   const result = {}
-  if (Object.prototype.toString.call(search) === "[object String]") {
+  if (search && Object.prototype.toString.call(search) === "[object String]") {
     const arr = search.slice(1).split('&')
     arr.forEach(item => {
       const kv = item.split('=');

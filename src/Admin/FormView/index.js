@@ -33,6 +33,13 @@ class FormContent extends Component {
     }
   }
 
+  setValue = (value, key) => {
+    const {form} = this.props
+    form.setFieldsValue({
+      [key]: value
+    })
+  }
+
   getFields = () => {
     const {props, state} = this
     const {formConfig, filterConfig, core, form} = props
@@ -50,13 +57,18 @@ class FormContent extends Component {
     const count = state.expand ? 10 : colCount * 2;
     const {getFieldDecorator} = props.form;
 
-    const children = config.form.map((item={}, i) => {
+
+    const children = config.form.map((item = {}, i) => {
       const {ifAction} = item
 
       const thisItem = ifAction && ifAction(form, core)
-      const {exist=true,label, itemKey, prefix, prefixWrapStyle = {}, suffix, suffixWrapStyle = {}, colSpan, itemProps = {}, fieldProps = {}, holder = 1} = {...item, ...thisItem}
+      const {exist = true, label, itemKey, prefix, prefixWrapStyle = {}, suffix, suffixWrapStyle = {}, colSpan, itemProps = {}, fieldProps = {}, holder = 1} = {...item, ...thisItem}
 
-      const {labelStyle={}} = itemProps
+      // console.log('render', render)
+      // if (render && typeof render === "function") {
+      //   console.log('render', render)
+      // }
+      const {labelStyle = {}} = itemProps
       const prefixWrap = prefix && <span style={{paddingRight: 12, ...prefixWrapStyle}}>{prefix}</span>
       const suffixWrap = suffix && <span style={{paddingLeft: 12, ...suffixWrapStyle}}>{suffix}</span>
       const fixLabel = typeof label === 'string'
@@ -79,7 +91,10 @@ class FormContent extends Component {
               {getFieldDecorator(itemKey, {
                 ...fieldProps
               })(
-                getItem(item, formFlag, core, itemKey, action)
+                getItem({
+                  ...item,
+                  setValue: this.setValue
+                }, formFlag, core, itemKey, action)
               )}
               {suffixWrap}
             </Item>
@@ -97,7 +112,10 @@ class FormContent extends Component {
               {getFieldDecorator(itemKey, {
                 ...fieldProps
               })(
-                getItem(item, formFlag, core, itemKey, action)
+                getItem({
+                  ...item,
+                  setValue: this.setValue
+                }, formFlag, core, itemKey, action)
               )}
               {suffixWrap}
             </Item>
@@ -200,15 +218,16 @@ const FormView = Form.create({
       }
       if (data) {
         Object.keys(data).forEach(key => {
-          let value
+          let realValue
           if (data[key] && data[key].value) {
-            value = data[key].value /* eslint-disable-line */
+            realValue = data[key].value
+            /* eslint-disable-line */
           } else {
-            value = data[key]
+            realValue = data[key]
           }
           result[key] = Form.createFormField({
             ...data[key],
-            value,
+            realValue,
           })
         })
       }

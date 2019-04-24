@@ -95,10 +95,8 @@ class PicturesWall extends React.Component {
     }
   }
 
-  handleRemove = () => {
-    const {core, itemKey} = this.props
-
-    this.setState({
+  handleRemove = (itemKey, self, core) => {
+    self.setState({
       fileList: []
     })
     core.formCore.setFieldsValue({
@@ -108,13 +106,14 @@ class PicturesWall extends React.Component {
 
   render() {
     const {previewVisible, previewImage, fileList} = this.state;
-    const {options} = this.props
+    const {options, itemKey, core} = this.props
     const uploadButton = (
       <div>
         <Icon type="plus" />
         <div className="ant-upload-text">Upload</div>
       </div>
     );
+    const handleRemove = options.handleRemove || this.handleRemove
     return (
       <div className="clearfix bug_fix">
         <Upload
@@ -124,8 +123,8 @@ class PicturesWall extends React.Component {
           onPreview={this.handlePreview}
           onChange={this.handleChange}
           beforeUpload={this.beforeUpload}
-          onRemove={this.handleRemove}
           {...options}
+          onRemove={() => {handleRemove(itemKey, this, core)}}
         >
           {fileList.length >= 1 ? null : uploadButton}
         </Upload>

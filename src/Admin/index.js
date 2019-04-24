@@ -31,24 +31,18 @@ class Admin extends Component {
 
   constructor(props) {
     super(props)
-
     const {filterConfig} = props.config
-
     this.type = 'form'
-
     if (filterConfig) {
       this.type = 'filter'
     }
-
     if (props.history) {
       this.getHistory(props.history)
     }
-
     const {options = {}} = props.config
     if (options.pagination) {
       this.pagination = options.pagination
     }
-
     this.state = {
       dataSource: [],
       pagination: this.pagination
@@ -60,17 +54,18 @@ class Admin extends Component {
     if (history) {
       this.getHistory(history)
     }
-    const {options = {}} = this.props.config
-    const {MountQuery = true} = options
-    if (this.type === 'filter' && MountQuery) {
-      this.queryList(this.params)
-    }
 
     // formCore
     if (this.formInst.props) {
       this.formCore = this.formInst.props.form
     } else {
       console.log('err', this)
+    }
+
+    const {options = {}} = this.props.config
+    const {MountQuery = true} = options
+    if (this.type === 'filter' && MountQuery) {
+      this.queryList(this.params)
     }
   }
 
@@ -80,14 +75,20 @@ class Admin extends Component {
     }
   }
 
-  getHistory = (history) => {
+  getHistory = (history = {}) => {
     this.history = history
-    this.paramsObj = utils.searchToObj(history.location.search)
-    this.params = utils.searchToObj(history.location.search)
+    const {location = {}} = this.history
+    const {search = ''} = location
+    this.paramsObj = utils.searchToObj(search)
+    this.params = utils.searchToObj(search)
   }
 
   saveParams = (data) => {
-    this.params = {...this.params, ...this.formCore.getFieldsValue(), ...data}
+    let values = {}
+    if (this.formCore) {
+      values = this.formCore.getFieldsValue && this.formCore.getFieldsValue()
+    }
+    this.params = {...this.params, ...values, ...data}
   }
 
   refresh = (params, page) => {
@@ -103,23 +104,34 @@ class Admin extends Component {
   }
 
   beforeQuery = (params, core) => {
-    const result = {...core.formCore.getFieldsValue(), ...params}
+    let result = {...params}
+    if (core.formCore) {
+      const values = core.formCore.getFieldsValue && core.formCore.getFieldsValue()
+      result = {...values, ...params}
+    }
     return result
   }
 
-  afterSuccess = (res) => {
-    const {state} = this
-    const pagination = {...state.pagination, total: res.data.total || res.data.allRow}
-    this.setState({
-      dataSource: res.data.list,
-      pagination,
-    })
+  afterSuccess = (res, core, changeAfter) => {
+    const {state} = core
+    const pagination = {...state.pagination, total: res && res.data && (res.data.total || res.data.allRow) || 0}
+
+    if (changeAfter) {
+      const newState = changeAfter(res, pagination)
+      core.setState(newState)
+
+    } else {
+      core.setState({
+        dataSource: res && res.data && res.data.list || [],
+        pagination,
+      })
+    }
   }
 
   queryList = (params, pageParams) => {
     const {props} = this
     const {config} = props
-    const {request, afterSuccess = this.afterSuccess, options = {}} = config
+    const {request, changeAfterSuccess, options = {}} = config
     const {beforeQuery, afterQuery, paginationKey} = options
 
     // page
@@ -140,23 +152,57 @@ class Admin extends Component {
 
     // before
     let fixParams = this.beforeQuery(params, this)
-    fixParams = beforeQuery && beforeQuery(fixParams, this)
+    if (beforeQuery) {
+      fixParams = beforeQuery(fixParams, this)
+    }
 
     // request
     const paramsData = {...fixParams, ...page}
     const paramsDataClear = utils.objClear(paramsData)
     this.saveParams(paramsDataClear)
-    request && request(paramsDataClear)
-      .then(res => {
-        // after
+
+    const query = (queryParams) => {
+      const queryResult = request(queryParams)
+      return queryResult
+    }
+
+    const deal = (queryResult) => {
+      if (queryResult && typeof queryResult.then === 'function') {
+        queryResult.then(dealRes => {
+          console.log('dealRes', dealRes)
+        })
+      }
+      return queryResult
+    }
+
+    new Promise((resolve, reject) => { /* eslint-disable-line */
+      resolve(paramsDataClear)
+    }).then(query)
+      .then(deal)
+      .then((res = {data: {}}) => {
         const fixRes = (afterQuery && afterQuery(res, this)) || res
-        fixRes && afterSuccess(fixRes, this)
-      })
+        fixRes && this.afterSuccess(fixRes, this, changeAfterSuccess)
+      }).catch(e => {
+      console.log('e', e)
+    })
+
+    // if (request) {
+    //   console.log('request', request)
+    //   console.log('request()', request())
+    //   console.log('request().then', request().then)
+    //   // request && request(paramsDataClear)
+    //   //   .then(res => {
+    //   //     // after
+    //   //     const fixRes = (afterQuery && afterQuery(res, this)) || res
+    //   //     fixRes && afterSuccess(fixRes, this)
+    //   //   })
+    // }
+
   }
 
   resetFilter = () => {
-    const {options} = this.props.config
-    const {unResetFilterKey} = options
+    const {options = {}} = this.props.config
+    const {unResetFilterKey = []} = options
 
     const values = this.formCore.getFieldsValue()
 
@@ -185,6 +231,12 @@ class Admin extends Component {
       fieldsValues = this.formCore.getFieldsValue()
     }
     // const hash = Math.random().toString().slice(2,8)
+    let fixDataSource = []
+    if (state.dataSource && state.dataSource instanceof Array) {
+      fixDataSource = state.dataSource
+    }
+
+
     if (formConfig) {
       children =
         <div style={{
@@ -202,7 +254,7 @@ class Admin extends Component {
             fieldsValues={fieldsValues}
           />
         </div>
-    } else if (filterConfig && operationConfig && listConfig) {
+    } else if (filterConfig && listConfig) {
       children =
         <div style={{
           position: 'relative',
@@ -228,7 +280,7 @@ class Admin extends Component {
           <List
             // key={`list${hash}`}
             config={listConfig}
-            dataSource={state.dataSource}
+            dataSource={fixDataSource}
             pagination={state.pagination}
             core={this}
             ref={ref => this.listCore = ref}

@@ -2,8 +2,8 @@ const path = require('path');
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); /* eslint-disable-line */
 
 module.exports = {
-  mode: 'production',
-  // mode: 'development',
+  // mode: 'production',
+  mode: 'development',
   entry: './src/index.js',
   output: {
     filename: 'main.js',
@@ -27,9 +27,23 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        exclude: /\.module.css$/,
         use: [
           'style-loader',
-          'css-loader'
+          'css-loader',
+        ]
+      },
+      {
+        test: /\.module.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[local]_[name]_[hash:base64:6]',
+            }
+          }
         ]
       },
       {
@@ -48,7 +62,7 @@ module.exports = {
         test: /\.(js|mjs|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         use: [
-          { loader: 'babel-loader' },
+          {loader: 'babel-loader'},
         ] // options 在 .babelrc 定义
       }
     ]
