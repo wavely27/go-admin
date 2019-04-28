@@ -131,8 +131,8 @@ class Admin extends Component {
   queryList = (params, pageParams) => {
     const {props} = this
     const {config} = props
-    const {request, changeAfterSuccess, options = {}} = config
-    const {beforeQuery, afterQuery, paginationKey} = options
+    const {request, options = {}} = config
+    const {beforeQuery, afterQuery, paginationKey, changeAfterSuccess} = options
 
     // page
     let page = {
@@ -190,7 +190,7 @@ class Admin extends Component {
 
   resetFilter = () => {
     const {options = {}} = this.props.config
-    const {unResetFilterKey = []} = options
+    const {unResetFilterKey = [], MountQuery = true} = options
 
     const values = this.formCore.getFieldsValue()
 
@@ -203,7 +203,9 @@ class Admin extends Component {
 
     this.formCore.setFieldsValue(newValues)
 
-    this.queryList(null, {pageNo: 1})
+    if (MountQuery) {
+      this.queryList(null, {pageNo: 1})
+    }
   }
 
   render() {
