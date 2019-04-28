@@ -63,7 +63,7 @@ const formConfig = {
   ],
   options: {
     layout: 'vertical', // 布局 水平（horizontal） or 垂直（vertical）
-    follow: true, // 全部跟随排列
+    formProps: {}     // Form options
   },
 }
 
@@ -89,10 +89,11 @@ const filterConfig = {
   ],
   options: {
     layout: 'horizontal', // 布局 水平（horizontal） or 垂直（vertical）
-    align: false, // 对齐
-    alignOptions: { // align 为true 才有效
+    static: false, // 对齐
+    alignOptions: { // static 为true 才有效
       colCount: 3, // 一行几个元素 default 3
-    }
+    },
+    formProps: {}     // Form options
   },
 }
 

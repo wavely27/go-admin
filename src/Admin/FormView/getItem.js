@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from "react";
 import {Cascader, DatePicker, Input, Select, Checkbox} from "antd";
 import PropTypes from "prop-types";
@@ -5,17 +6,26 @@ import PicturesWall from '../components/Upload'
 
 const {CheckboxGroup} = Checkbox
 
-const getItem = ({component, componentType, innerProps, render, setValue}, formFlag, core, itemKey) => {
-  let mixWidth = ''
-  if (formFlag) {
-    mixWidth = 200
+const getItem = ({label, component, componentType, innerProps={}, render, setValue}, fixWidth, core, itemKey) => {
+  /*let mixWidth = ''
+  let style = {
+    display: 'inline-block'
   }
-  const options = {
-    style: {
+  console.log('fixWidth', fixWidth)
+  if (fixWidth) {
+    mixWidth = 200
+    style = {
       flex: 1,
       width: mixWidth,
-    },
-    placeholder: "请输入内容",
+    }
+  }*/
+  let style = {
+    width: 220,
+    ...innerProps.style
+  }
+  const options = {
+    style,
+    placeholder: (typeof label === "string") ? `请输入${label}` : '请输入内容',
     ...innerProps,
   }
 
@@ -58,6 +68,7 @@ getItem.defaultProps = {
   innerProps: {},
   render: undefined,
   setValue: undefined,
+  label: 'label',
 }
 
 getItem.propTypes = {
@@ -66,6 +77,10 @@ getItem.propTypes = {
   innerProps: PropTypes.object,
   render: PropTypes.func,
   setValue: PropTypes.func,
+  label: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+  ]),
 }
 
 export default getItem
