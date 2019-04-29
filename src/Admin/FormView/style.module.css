@@ -1,0 +1,84 @@
+.ib {
+  display: inline-block;
+}
+
+.form {
+  text-align: left;
+  padding: 12px 32px 32px !important;
+}
+
+.formFlexWrap {
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding-bottom: 24px;
+}
+
+.formWrap {
+  /*display: inline-flex;*/
+  /*flex-wrap: wrap;*/
+  padding-bottom: 24px;
+}
+
+.itemInlineWrap {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.itemWrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.prefix {
+  display: inline-block;
+  margin: 8px 4px;
+}
+.suffix {
+  display: inline-block;
+  margin: 8px 4px;
+}
+.topFix {
+  display: inline-block;
+  margin: 2px 4px;
+}
+.bottomFix {
+  display: inline-block;
+  margin: 2px 4px;
+}
+
+.fixLabel {
+  display: inline-block;
+  margin: 8px;
+  float: right;
+  color: rgba(0, 0, 0, 0.85);
+}
+.fixLabel:after {
+  content: ':';
+  position: relative;
+  top: -0.5px;
+  margin: 0 8px 0 2px;
+}
+
+.labelEle {
+  display: inline-block;
+}
+
+.itemFlexTop {
+  display: block;
+  /*display: inline-block;*/
+  /*background-color: cadetblue;*/
+}
+.itemFlexContent {
+  /*display: block;*/
+  display: inline-block;
+  /*background-color: cornflowerblue;*/
+}
+.itemFlexBottom {
+  display: block;
+  /*display: inline-block;*/
+  /*background-color: thistle;*/
+}
+
+.itemFlexContent:before {
+  content: '';
+}

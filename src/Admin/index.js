@@ -232,7 +232,9 @@ class Admin extends Component {
 
     if (formConfig) {
       children =
-        <div style={{
+        <div
+          className='go-admin'
+          style={{
           position: 'relative',
           minWidth: 980,
           background: '#FFFFFF',
@@ -249,7 +251,9 @@ class Admin extends Component {
         </div>
     } else if (filterConfig && listConfig) {
       children =
-        <div style={{
+        <div
+          className='go-admin'
+          style={{
           position: 'relative',
           minWidth: 980,
           background: '#FFFFFF',

@@ -23,7 +23,7 @@ class PicturesWall extends React.Component {
 
   componentDidMount() {
     const {options, core, itemKey} = this.props
-    if (options) {
+    if (options && core.formCore) {
       const {setInitialValue,} = options
       const value = core.formCore.getFieldValue(itemKey)
       value && setInitialValue && setInitialValue(value, this)
@@ -32,7 +32,7 @@ class PicturesWall extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const {options, core, itemKey} = nextProps
-    if (options) {
+    if (options && core.formCore) {
       const {setInitialValue,} = options
       const value = core.formCore.getFieldValue(itemKey)
       value && setInitialValue && setInitialValue(value, this)

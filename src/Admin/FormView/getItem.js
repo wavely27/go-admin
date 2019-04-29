@@ -1,10 +1,11 @@
 /* eslint-disable */
 import React from "react";
-import {Cascader, DatePicker, Input, Select, Checkbox} from "antd";
+import {Cascader, DatePicker, Input, Select, Checkbox, Radio} from "antd";
 import PropTypes from "prop-types";
 import PicturesWall from '../components/Upload'
 
-const {CheckboxGroup} = Checkbox
+const CheckboxGroup = Checkbox.Group
+const RadioGroup = Radio.Group
 
 const getItem = ({label, component, componentType, innerProps={}, render, setValue}, fixWidth, core, itemKey) => {
   /*let mixWidth = ''
@@ -23,9 +24,17 @@ const getItem = ({label, component, componentType, innerProps={}, render, setVal
     width: 220,
     ...innerProps.style
   }
+  // status fix
+  let placehandle = '请输入'
+  if (component === 'Select' || component === 'Cascader') {
+    placehandle = '请选择'
+  }
+  const placeholder = (typeof label === "string") ? `${placehandle}${label}` : `${placehandle}内容`
+
+
   const options = {
     style,
-    placeholder: (typeof label === "string") ? `请输入${label}` : '请输入内容',
+    placeholder,
     ...innerProps,
   }
 
@@ -40,6 +49,10 @@ const getItem = ({label, component, componentType, innerProps={}, render, setVal
       return <Checkbox {...options} />
     case 'CheckboxGroup':
       return <CheckboxGroup {...options} />
+    case 'Radio':
+      return <Radio {...options} />
+    case 'RadioGroup':
+      return <RadioGroup {...options} />
     case 'Upload':
       if (componentType) {
         return <PicturesWall options={options} core={core} itemKey={itemKey} />
