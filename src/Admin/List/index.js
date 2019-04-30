@@ -31,7 +31,8 @@ class List extends Component {
   fixColumns = (columns) => {
     const {core} = this.props
     const result = columns.map((col) => {
-      const fixedCol = Object.assign({}, col) /* eslint-disable-line */
+      const fixedCol = Object.assign({}, col)
+      /* eslint-disable-line */
       if (col.render) {
         fixedCol.render = (text, record, index) => {
           return col.render(text, record, index, core)
@@ -65,21 +66,25 @@ class List extends Component {
     const {options, columns} = config
     const fixedColumns = this.fixColumns(columns)
 
+
+    const fixedOptions = {
+      style: {padding: '0 32px 24px',},
+      pagination: {
+        size: pagination.size || "middle",
+        current: pagination.pageNo || 1,
+        page: pagination.pageNo || 1,
+        pageSize: pagination.pageSize,
+        total: pagination.total || 0,
+        onChange: this.updateTablePage,
+        showTotal: this.showTotal
+      },
+      ...options
+    }
+
+
     return (
       <Table
-        style={{
-          padding: '0 32px 24px',
-        }}
-        pagination={{
-          size: pagination.size || "middle",
-          current: pagination.pageNo || 1,
-          page: pagination.pageNo || 1,
-          pageSize: pagination.pageSize,
-          total: pagination.total || 0,
-          onChange: this.updateTablePage,
-          showTotal: this.showTotal
-        }}
-        {...options}
+        {...fixedOptions}
         columns={fixedColumns}
         dataSource={dataSource}
       />
