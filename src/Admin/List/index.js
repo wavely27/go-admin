@@ -70,7 +70,6 @@ class List extends Component {
         style={{
           padding: '0 32px 24px',
         }}
-        {...options}
         pagination={{
           size: pagination.size || "middle",
           current: pagination.pageNo || 1,
@@ -80,6 +79,7 @@ class List extends Component {
           onChange: this.updateTablePage,
           showTotal: this.showTotal
         }}
+        {...options}
         columns={fixedColumns}
         dataSource={dataSource}
       />
