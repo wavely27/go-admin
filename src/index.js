@@ -29,7 +29,7 @@ class GoAdmin extends Component {
     const {props} = this
     return (
       <LocaleProvider locale={zhCN}>
-        <Admin config={props.config} ref={core => this.core = core} history={props.history} />
+        <Admin config={props.config} title={props.title} ref={core => this.core = core} history={props.history} />
       </LocaleProvider>
     )
   }

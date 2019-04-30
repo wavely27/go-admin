@@ -1,0 +1,9 @@
+.contentTitle {
+  text-align: left;
+}
+.contentTitle h3 {
+  margin-left: 32px;
+  margin-bottom: 0;
+  padding-left: 12px;
+  border-left: 4px solid #2d2d2d;
+}

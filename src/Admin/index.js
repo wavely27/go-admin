@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from "prop-types";
 import FormView from './FormView'
 import Operation from './Operation'
+import ContentTitle from './ContentTitle'
 import List from './List'
 import utils from '../utils'
 import './style.css'
@@ -21,11 +22,13 @@ class Admin extends Component {
 
   static defaultProps = {
     config: {},
+    title: undefined,
     history: undefined,
   }
 
   static propTypes = {
     config: PropTypes.object,
+    title: PropTypes.string,
     history: PropTypes.object,
   }
 
@@ -209,10 +212,10 @@ class Admin extends Component {
   }
 
   render() {
-
     this.core = this
     const {props, state} = this
-    const {formConfig, filterConfig, operationConfig, listConfig} = props.config
+    const {config, title} = props
+    const {formConfig, filterConfig, operationConfig, listConfig} = config
 
     let children = <div>Admin Missing configuration</div>
 
@@ -240,6 +243,11 @@ class Admin extends Component {
           background: '#FFFFFF',
         }}
         >
+          {
+            title ? (
+              <ContentTitle title={title} />
+            ) : null
+          }
           <FormView
             // key={`form${hash}`}
             formConfig={formConfig}
@@ -259,6 +267,11 @@ class Admin extends Component {
           background: '#FFFFFF',
         }}
         >
+          {
+            title ? (
+              <ContentTitle title={title} />
+            ) : null
+          }
           <FormView
             // key={`filter${hash}`}
             filterConfig={filterConfig}

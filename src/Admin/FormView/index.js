@@ -96,7 +96,6 @@ class FormContent extends Component {
       )
     }
 
-
     // result
     this.formLayout = formLayout
     this.btn = btn
@@ -110,9 +109,7 @@ class FormContent extends Component {
     })
   }
 
-
   getDefaultHorizontalItems = () => {
-    console.log('getDefaultHorizontalItems-水平')
     const {props, state} = this
     const {formConfig, filterConfig, core, form} = props
     const {getFieldDecorator} = form;
@@ -185,8 +182,6 @@ class FormContent extends Component {
   }
 
   getDefaultVerticalItems = () => {
-    console.log('getDefaultVerticalItems-垂直')
-
     const {props, state} = this
     const {formConfig, core, form} = props
     const {getFieldDecorator} = form;
@@ -227,8 +222,8 @@ class FormContent extends Component {
 
       const prefixWrap = prefix ? <span className={styles.prefix} style={{...prefixWrapStyle}}>{prefix}</span> : null
       const suffixWrap = suffix ? <span className={styles.suffix} style={{...suffixWrapStyle}}>{suffix}</span> : null
-      const topWrap = top ? <span className={styles.topFix}>{top}</span> : null
-      const bottomWrap = bottom ? <span className={styles.bottomFix}>{bottom}</span> : null
+      let topWrap = top ? <span className={styles.topFix}>{top}</span> : null
+      let bottomWrap = bottom ? <span className={styles.bottomFix}>{bottom}</span> : null
       const fixLabel = typeof label === 'string'
         ? <span>{label}</span>
         : label
@@ -252,7 +247,10 @@ class FormContent extends Component {
       )
 
       if (prefix || suffix || top || bottom) {
-        const isRequire = fieldProps.rules.some(rule => rule.required === true)
+        const isRequire = fieldProps && fieldProps.rules && fieldProps.rules.some(rule => rule.required === true)
+
+        topWrap = top ? <span className={styles.topFix} style={{width: '100%'}}>{top}</span> : null
+        bottomWrap = bottom ? <span className={styles.bottomFix} style={{width: '100%'}}>{bottom}</span> : null
 
         child = (
           <Row key={`gItem-l-${i}`} className='ant-form-item'>
@@ -273,7 +271,7 @@ class FormContent extends Component {
               }
             </Col>
             <Col {...formItemLayout.wrapperCol}>
-              <div className={styles.itemWrap}>
+              <div className={`${styles.itemWrap} fixedItemWrap`}>
                 <div className={styles.itemFlexContent}>
                   <Item
                     key={`item-${i}`}
@@ -328,13 +326,9 @@ class FormContent extends Component {
   }
 
   render() {
-
     const {formLayout, getFormEleList, btn} = this
 
     const temp = getFormEleList()
-
-    console.log('formLayout', formLayout)
-    console.log('temp', temp)
 
     let {formWrap} = styles
     let className = 'vertical-form'

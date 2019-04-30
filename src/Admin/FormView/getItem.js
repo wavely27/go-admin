@@ -6,6 +6,7 @@ import PicturesWall from '../components/Upload'
 
 const CheckboxGroup = Checkbox.Group
 const RadioGroup = Radio.Group
+const {TextArea} = Input
 
 const getItem = ({label, component, componentType, innerProps={}, render, setValue}, fixWidth, core, itemKey) => {
   /*let mixWidth = ''
@@ -43,6 +44,8 @@ const getItem = ({label, component, componentType, innerProps={}, render, setVal
       return <Cascader {...options} />
     case 'Input':
       return <Input {...options} />
+    case 'TextArea':
+      return <TextArea {...options} />
     case 'DatePicker':
       return <DatePicker {...options} />
     case 'Checkbox':
